@@ -23,7 +23,7 @@ Arrow Keys
 *Faces work more like a gear shifter, see diagram below:*
 
 
-                              Happy
+                          Happy
 				|
 				|
 				|

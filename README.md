@@ -18,6 +18,8 @@ Love2D is only ~8MB and can be used from a folder: no need to do a full install 
 
 "Num -" = Noisegate -
 
+"D" = Toggle Recording Device
+
 
 ## Facial Controls
 Arrow Keys

@@ -2,12 +2,11 @@ function love.load()
 	-- Setup the window
 	love.window.setTitle( "FlappingHead" )
 	love.window.setMode( 400, 400, {resizable=true, vsync=false, minwidth=400, minheight=400} )
-	-- Set up an empty container for recording devices
-	devices = {}
 	-- Populate container with available devices
 	devices = love.audio.getRecordingDevices()
+	device = 1
 	-- Setting Mic as device 1 which is the default recording device on your system
-	Mic=devices[1]
+	Mic=devices[device]
 	-- Setting up some variables for future use
 	recording = 0
 	t=0
@@ -159,7 +158,7 @@ function love.keypressed(key)
 		end
 	end
 	if key == "]" then
-		if quality < 200 then
+		if quality < 500 then
 			quality = quality + 10
 		end
 	end
@@ -172,5 +171,13 @@ function love.keypressed(key)
 		if noisegate >= 1 then
 			noisegate = noisegate - 1
 		end
+	end
+	if key == "d" then
+		if device < #devices then
+			device = device + 1
+		else
+			device = 1
+		end
+		Mic=devices[device]
 	end
 end

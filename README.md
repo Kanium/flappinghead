@@ -15,22 +15,3 @@
 "Num +" = Noisegate +
 
 "Num -" = Noisegate -
-
-
-## Facial Controls
-Arrow Keys
-
-*Faces work more like a gear shifter, see diagram below:*
-
-
-                          Happy
-				|
-				|
-				|
-				|
-		Scared-------Neutral-------Angry
-				|
-				|
-				|
-				|
-			       Sad

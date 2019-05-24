@@ -15,3 +15,5 @@
 "Num +" = Noisegate +
 
 "Num -" = Noisegate -
+
+"D" = Recording Device Toggle

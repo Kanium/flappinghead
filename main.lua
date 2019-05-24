@@ -69,31 +69,31 @@ function love.draw()
 	end
 	
 	if recording == 0 then
-		love.graphics.draw(k0, 30, 40,0,2,2)
+		love.graphics.draw(k0, 30, 40)
 	end
 	
 	if volume == 0 then
-		love.graphics.draw(k0, 30,40,0,2,2)
+		love.graphics.draw(k0, 30,40)
 	elseif volume == 1 then
-		love.graphics.draw(k1, 30,40,0,2,2)
+		love.graphics.draw(k1, 30,40)
 	elseif volume == 2 then
-		love.graphics.draw(k2, 30,40,0,2,2)
+		love.graphics.draw(k2, 30,40)
 	elseif volume == 3 then
-		love.graphics.draw(k3, 30,40,0,2,2)
+		love.graphics.draw(k3, 30,40)
 	elseif volume == 4 then
-		love.graphics.draw(k4, 30,40,0,2,2)
+		love.graphics.draw(k4, 30,40)
 	elseif volume == 5 then
-		love.graphics.draw(k5, 30,40,0,2,2)
+		love.graphics.draw(k5, 30,40)
 	elseif volume == 6 then
-		love.graphics.draw(k6, 30,40,0,2,2)
+		love.graphics.draw(k6, 30,40)
 	elseif volume == 7 then
-		love.graphics.draw(k7, 30,40,0,2,2)
+		love.graphics.draw(k7, 30,40)
 	elseif volume == 8 then
-		love.graphics.draw(k8, 30,40,0,2,2)
+		love.graphics.draw(k8, 30,40)
 	elseif volume == 9 then
-		love.graphics.draw(k9, 30,40,0,2,2)
+		love.graphics.draw(k9, 30,40)
 	elseif volume >= 10 then
-		love.graphics.draw(k10, 30,40,0,2,2)
+		love.graphics.draw(k10, 30,40)
 	end
 end
 

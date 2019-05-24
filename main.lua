@@ -1,34 +1,33 @@
 function love.load()
 	-- Setup the window
-	love.window.setTitle( "FlappingHead" )
+	love.window.setTitle( "FlappingKermit" )
 	love.window.setMode( 400, 400, {resizable=true, vsync=false, minwidth=400, minheight=400} )
-	-- Set up an empty container for recording devices
-	devices = {}
 	-- Populate container with available devices
 	devices = love.audio.getRecordingDevices()
+	device = 1
 	-- Setting Mic as device 1 which is the default recording device on your system
-	Mic=devices[1]
+	Mic=devices[device]
 	-- Setting up some variables for future use
 	recording = 0
 	t=0
 	sample = 0
 	volume = 0
 	-- set the noise gate (Higher means it ignores lower sounds)
-	noisegate = 0
-	preAmp = 500
-	quality = 100
+	noisegate = 10
+	preAmp = 200
+	quality = 200
 	-- loading our images into the code
-	top = love.graphics.newImage("top.png")
-	bottom = love.graphics.newImage("bottom.png")
-	--Different facial expressions here
-	neutral = love.graphics.newImage("neutral.png")
-	happy = love.graphics.newImage("happy.png")
-	sad = love.graphics.newImage("sad.png")
-	angry = love.graphics.newImage("angry.png")
-	scared = love.graphics.newImage("scared.png")
-	-- will we be using a hinge mouth?
-	hinge = 0
-	mood = "neutral"
+	k0 = love.graphics.newImage("kermit/0.png")
+	k1 = love.graphics.newImage("kermit/1.png")
+	k2 = love.graphics.newImage("kermit/2.png")
+	k3 = love.graphics.newImage("kermit/3.png")
+	k4 = love.graphics.newImage("kermit/4.png")
+	k5 = love.graphics.newImage("kermit/5.png")
+	k6 = love.graphics.newImage("kermit/6.png")
+	k7 = love.graphics.newImage("kermit/7.png")
+	k8 = love.graphics.newImage("kermit/8.png")
+	k9 = love.graphics.newImage("kermit/9.png")
+	k10 = love.graphics.newImage("kermit/10.png")
 end
 
 function love.update(dt)
@@ -51,6 +50,7 @@ function love.draw()
 	-- test is going to collect averages from the samples, but must be reset to 0 before doing this
 	test = 0
 	-- The microphone only stores a small buffer of samples, every time you read the buffer, it empties it, so you need to be sure you're sampleing only when there's samples in the buffer to check
+	
 	if Mic:getSampleCount() >= quality then
 		-- this is the function that clears the buffer, so you need to make use of that data now, or it'll be lost.
 		micdata = Mic:getData()
@@ -66,41 +66,34 @@ function love.draw()
 		if volume <= 0 then 
 			volume = 0 
 		end
-	end	
-		
-	-- Depending on how you designed your "actor" you might need to swap the order of the top and bottom being rendered, but always the "top" is expected to do the movement
-	love.graphics.draw(top, 20, 20)
-	-- Why re-code it everytime? set at the top whether you want a hinge-mouth or not.
-	if hinge == 1 then
-	-- define the center hingepoint, in pixels, of your image (easy as opening it in paint as seeing the co-ordinates on-screen.)
-		local xoff = 370
-		local yoff = 300
-		-- The volume number can go ridiculously high, so we have to set a visual cap that keeps the actor's head from launching off into space. Depending on microphones, 10-20 seems to be a good cutoff.
-		if volume <= 10 then
-		-- this is a long function, so I'll summarize: draw(<image>,<x>,<y>,<Rotation in radians>,<scaleX>,<scaleY>,<xOffset>,<yOffset>)
-			love.graphics.draw(bottom, 20+(xoff),20+(yoff),(volume/10)*0.25,1,1,xoff,yoff)
-		else
-			love.graphics.draw(bottom, 20+(xoff),20+(yoff),0.25,1,1,xoff,yoff)
-		end
-	else
-		if volume <= 10 then
-			love.graphics.draw(bottom, 20,20+(volume))
-		else
-			love.graphics.draw(bottom, 20,20+10)
-		end
 	end
-	-- another debug value: simply prints the current volume level so you can see how high it goes.
-	love.graphics.print("avg sound: " ..tostring(volume),0,20)
-	if mood == "neutral" then
-		love.graphics.draw(neutral,20,20)
-	elseif mood == "happy" then
-		love.graphics.draw(happy,20,20)
-	elseif mood == "sad" then
-		love.graphics.draw(sad,20,20)
-	elseif mood == "scared" then
-		love.graphics.draw(scared,20,20)
-	elseif mood == "angry" then
-		love.graphics.draw(angry,20,20)
+	
+	if recording == 0 then
+		love.graphics.draw(k0, 30, 40,0,2,2)
+	end
+	
+	if volume == 0 then
+		love.graphics.draw(k0, 30,40,0,2,2)
+	elseif volume == 1 then
+		love.graphics.draw(k1, 30,40,0,2,2)
+	elseif volume == 2 then
+		love.graphics.draw(k2, 30,40,0,2,2)
+	elseif volume == 3 then
+		love.graphics.draw(k3, 30,40,0,2,2)
+	elseif volume == 4 then
+		love.graphics.draw(k4, 30,40,0,2,2)
+	elseif volume == 5 then
+		love.graphics.draw(k5, 30,40,0,2,2)
+	elseif volume == 6 then
+		love.graphics.draw(k6, 30,40,0,2,2)
+	elseif volume == 7 then
+		love.graphics.draw(k7, 30,40,0,2,2)
+	elseif volume == 8 then
+		love.graphics.draw(k8, 30,40,0,2,2)
+	elseif volume == 9 then
+		love.graphics.draw(k9, 30,40,0,2,2)
+	elseif volume >= 10 then
+		love.graphics.draw(k10, 30,40,0,2,2)
 	end
 end
 
@@ -113,35 +106,6 @@ function love.keypressed(key)
 	if key == "p" then
 		recording = 0
 		Mic:stop()
-	end
-	-- Mood toggling
-	if key == "up" then
-		if mood == "sad" then
-			mood = "neutral"
-		else
-			mood = "happy"
-		end
-	end
-	if key == "down" then
-		if mood == "happy" then
-			mood = "neutral"
-		else
-			mood = "sad"
-		end
-	end
-	if key == "right" then
-		if mood == "scared" then
-			mood = "neutral"
-		else
-			mood = "angry"
-		end
-	end
-	if key == "left" then
-		if mood == "angry" then
-			mood = "neutral"
-		else
-			mood = "scared"
-		end
 	end
 	if key == "-" then
 		if preAmp >= 10 then
@@ -159,7 +123,7 @@ function love.keypressed(key)
 		end
 	end
 	if key == "]" then
-		if quality < 200 then
+		if quality < 500 then
 			quality = quality + 10
 		end
 	end
@@ -172,5 +136,13 @@ function love.keypressed(key)
 		if noisegate >= 1 then
 			noisegate = noisegate - 1
 		end
+	end
+	if key == "d" then
+		if device < #devices then
+			device = device + 1
+		else
+			device = 1
+		end
+		Mic=devices[device]
 	end
 end

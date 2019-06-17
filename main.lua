@@ -14,17 +14,24 @@ function love.load()
 	volume = 0
 	-- set the noise gate (Higher means it ignores lower sounds)
 	noisegate = 0
-	preAmp = 500
+	preAmp = 300
 	quality = 100
 	-- loading our images into the code
-	top = love.graphics.newImage("top.png")
-	bottom = love.graphics.newImage("bottom.png")
+	face = love.graphics.newImage("face.png")
+	nose = love.graphics.newImage("nose.png")
+	hair = love.graphics.newImage("hair.png")
+	openmouth = love.graphics.newImage("openmouth.png")
 	--Different facial expressions here
-	neutral = love.graphics.newImage("neutral.png")
-	happy = love.graphics.newImage("happy.png")
-	sad = love.graphics.newImage("sad.png")
-	angry = love.graphics.newImage("angry.png")
-	scared = love.graphics.newImage("scared.png")
+	neutralMouth = love.graphics.newImage("neutralMouth.png")
+	happyMouth = love.graphics.newImage("happyMouth.png")
+	sadMouth = love.graphics.newImage("sadMouth.png")
+	angryMouth = love.graphics.newImage("angryMouth.png")
+	scaredMouth = love.graphics.newImage("scaredMouth.png")
+	neutralEyes = love.graphics.newImage("neutralEyes.png")
+	happyEyes = love.graphics.newImage("happyEyes.png")
+	sadEyes = love.graphics.newImage("sadEyes.png")
+	angryEyes = love.graphics.newImage("angryEyes.png")
+	scaredEyes = love.graphics.newImage("scaredEyes.png")
 	-- will we be using a hinge mouth?
 	hinge = 0
 	mood = "neutral"
@@ -66,11 +73,14 @@ function love.draw()
 			volume = 0 
 		end
 	end	
-		
-	-- Depending on how you designed your "actor" you might need to swap the order of the top and bottom being rendered, but always the "top" is expected to do the movement
-	love.graphics.draw(top, 20, 20)
-	-- Why re-code it everytime? set at the top whether you want a hinge-mouth or not.
-	if hinge == 1 then
+	
+	-- Make sure to layer your pieces properly, Bottom layer first.
+	love.graphics.draw(face, 20, 20)
+	love.graphics.draw(hair, 20, 20)
+	love.graphics.draw(nose, 20, 20)
+	
+	-- **deprecated** Why re-code it everytime? set at the top whether you want a hinge-mouth or not.
+	--[[if hinge == 1 then
 	-- define the center hingepoint, in pixels, of your image (easy as opening it in paint as seeing the co-ordinates on-screen.)
 		local xoff = 370
 		local yoff = 300
@@ -81,25 +91,39 @@ function love.draw()
 		else
 			love.graphics.draw(bottom, 20+(xoff),20+(yoff),0.25,1,1,xoff,yoff)
 		end
-	else
-		if volume <= 10 then
-			love.graphics.draw(bottom, 20,20+(volume))
+	else--]]
+		-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
+		mouthXOff = 73
+		mouthYOff = 149
+		if volume == 0 then
+			if mood == "neutral" then
+				love.graphics.draw(neutralMouth,20,20)
+			elseif mood == "happy" then
+				love.graphics.draw(happyMouth,20,20)
+			elseif mood == "sad" then
+				love.graphics.draw(sadMouth,20,20)
+			elseif mood == "scared" then
+				love.graphics.draw(scaredMouth,20,20)
+			elseif mood == "angry" then
+				love.graphics.draw(angryMouth,20,20)
+			end
+		elseif volume <= 10 then
+			love.graphics.draw(openmouth, 20+mouthXOff, 20+mouthYOff, 0, 1, volume/5, 75, 150)
 		else
-			love.graphics.draw(bottom, 20,20+10)
+			love.graphics.draw(openmouth, 20+mouthXOff, 20+mouthYOff, 0, 1, 2, 75, 150)
 		end
-	end
 	-- another debug value: simply prints the current volume level so you can see how high it goes.
 	love.graphics.print("avg sound: " ..tostring(volume),0,20)
 	if mood == "neutral" then
-		love.graphics.draw(neutral,20,20)
+		love.graphics.draw(neutralEyes,20,20)
 	elseif mood == "happy" then
-		love.graphics.draw(happy,20,20)
+		love.graphics.draw(happyEyes,20,20)
 	elseif mood == "sad" then
-		love.graphics.draw(sad,20,20)
+		love.graphics.draw(sadEyes,20,20)
 	elseif mood == "scared" then
-		love.graphics.draw(scared,20,20)
+		love.graphics.draw(scaredEyes,20,20)
 	elseif mood == "angry" then
-		love.graphics.draw(angry,20,20)
+		love.graphics.draw(angryEyes,20,20)
 	end
 end
 

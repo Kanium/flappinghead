@@ -1,27 +1,45 @@
+
+
 function love.load()
 	-- Setup the window
 	love.window.setTitle( "FlappingHead" )
-	love.window.setMode( 400, 400, {resizable=true, vsync=false, minwidth=400, minheight=400} )
+	love.window.setMode( 750, 780, {resizable=true, vsync=false, minwidth=200, minheight=200} )
+	love.graphics.setBackgroundColor( 0, 255, 0, 255 )
+	
+	--Setup Scaling
+	startHeight=780
+	xScale = 1
+	yScale = 1
+	
 	-- Populate container with available devices
 	devices = love.audio.getRecordingDevices()
 	device = 1
 	-- Setting Mic as device 1 which is the default recording device on your system
 	Mic=devices[device]
+	
 	-- Setting up some variables for future use
 	recording = 0
 	t=0
 	sample = 0
 	volume = 0
-	-- set the noise gate (Higher means it ignores lower sounds)
 	noisegate = 0
 	preAmp = 300
 	quality = 100
-	-- loading our images into the code
+	mood = "neutral"
+	hidden = 0
+	rotation = 0
+	tick = 0
+	bobbleConstant = 0.02
+	loaded = 0
+	-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
+	mouthXOff = 73
+	mouthYOff = 149
+	
+	-- loading our defult images into the code
 	face = love.graphics.newImage("face.png")
 	nose = love.graphics.newImage("nose.png")
 	hair = love.graphics.newImage("hair.png")
 	openmouth = love.graphics.newImage("openmouth.png")
-	--Different facial expressions here
 	neutralMouth = love.graphics.newImage("neutralMouth.png")
 	happyMouth = love.graphics.newImage("happyMouth.png")
 	sadMouth = love.graphics.newImage("sadMouth.png")
@@ -32,12 +50,52 @@ function love.load()
 	sadEyes = love.graphics.newImage("sadEyes.png")
 	angryEyes = love.graphics.newImage("angryEyes.png")
 	scaredEyes = love.graphics.newImage("scaredEyes.png")
-	-- will we be using a hinge mouth?
-	hinge = 0
-	mood = "neutral"
+	
+	-- Setting RootDirectory
+	rootDir = love.filesystem.getSourceBaseDirectory()
+	success = love.filesystem.mount(rootDir, "Root")
+
+	--load config
+	chunk = love.filesystem.load("Root/config.lua")
+	chunk()
 end
 
+
+function love.resize(w,h)
+	yScale = h/startHeight
+	xScale = (yScale/26)*25
+end
+
+
 function love.update(dt)
+	if loaded == 0 then
+		if success then
+			face = love.graphics.newImage("Root/Custom/face.png")
+			nose = love.graphics.newImage("Root/Custom/nose.png")
+			hair = love.graphics.newImage("Root/Custom/hair.png")
+			openMouth = love.graphics.newImage("Root/Custom/openmouth.png")
+			neutralMouth = love.graphics.newImage("Root/Custom/neutralMouth.png")
+			happyMouth = love.graphics.newImage("Root/Custom/happyMouth.png")
+			sadMouth = love.graphics.newImage("Root/Custom/sadMouth.png")
+			angryMouth = love.graphics.newImage("Root/Custom/angryMouth.png")
+			scaredMouth = love.graphics.newImage("Root/Custom/scaredMouth.png")
+			neutralEyes = love.graphics.newImage("Root/Custom/neutralEyes.png")
+			happyEyes = love.graphics.newImage("Root/Custom/happyEyes.png")
+			sadEyes = love.graphics.newImage("Root/Custom/sadEyes.png")
+			angryEyes = love.graphics.newImage("Root/Custom/AngryEyes.png")
+			scaredEyes = love.graphics.newImage("Root/Custom/scaredEyes.png")
+			--Set Dimensions of window to the image
+			local wid,hig = face:getDimensions()
+			startHeight = hig
+			love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
+			loaded = 1
+		else 
+			local wid,hig = face:getDimensions()
+			startHeight = hig
+			love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
+			loaded = 2
+		end
+	end
 	-- dt is the time passed since update was last called
 	-- This allows us to have a "tick" every 1 second, rather than trying to do our code as fast as possible.
 	t = t + dt
@@ -47,13 +105,43 @@ function love.update(dt)
 		-- Get the Mic's Sample Rate; Mainly for debugging
 		sample = Mic:getSampleRate()
 	end
+	
+	-- Set up Bobble Animation to only adjust every 40 ticks so as not to overload the cpu
+	tick = tick + 1
+	if tick > 40 then
+		tick = 1
+		if volume > 10 then
+			rotation = rotation + (math.random(-1,1)/100)
+			if rotation > bobbleConstant then
+				rotation = bobbleConstant
+			end
+			if rotation < -bobbleConstant then
+				rotation = -bobbleConstant
+			end
+		end
+		--Double the bobble when louder.
+		if volume > 20 then
+			rotation = rotation + (math.random(-10,10)/100)
+			if rotation > (bobbleConstant*2) then
+				rotation = (bobbleConstant*2)
+			end
+			if rotation < -(bobbleConstant*2) then
+				rotation = -(bobbleConstant*2)
+			end
+		end
+		-- slowly reset head to default position when not talking.
+		if volume == 0 then
+			if rotation > 0 then
+				rotation = rotation - 0.01
+			end
+			if rotation < 0 then
+				rotation = rotation + 0.01
+			end
+		end
+	end
 end
 
 function love.draw()
-	-- Some debug values so you can see when the Mic is on etc.
-	love.graphics.print("Rec: " ..tostring(Mic:isRecording()),0,0)
-	love.graphics.print(tostring(Mic:getName()),70,0)
-	love.graphics.print("Quality: " ..tostring(quality) ..", Amplification: " ..tostring(preAmp) .."%, Noisegate: " ..tostring(noisegate),10,10)
 	-- test is going to collect averages from the samples, but must be reset to 0 before doing this
 	test = 0
 	-- The microphone only stores a small buffer of samples, every time you read the buffer, it empties it, so you need to be sure you're sampleing only when there's samples in the buffer to check
@@ -75,55 +163,52 @@ function love.draw()
 	end	
 	
 	-- Make sure to layer your pieces properly, Bottom layer first.
-	love.graphics.draw(face, 20, 20)
-	love.graphics.draw(hair, 20, 20)
-	love.graphics.draw(nose, 20, 20)
-	
-	-- **deprecated** Why re-code it everytime? set at the top whether you want a hinge-mouth or not.
-	--[[if hinge == 1 then
-	-- define the center hingepoint, in pixels, of your image (easy as opening it in paint as seeing the co-ordinates on-screen.)
-		local xoff = 370
-		local yoff = 300
-		-- The volume number can go ridiculously high, so we have to set a visual cap that keeps the actor's head from launching off into space. Depending on microphones, 10-20 seems to be a good cutoff.
-		if volume <= 10 then
-		-- this is a long function, so I'll summarize: draw(<image>,<x>,<y>,<Rotation in radians>,<scaleX>,<scaleY>,<xOffset>,<yOffset>)
-			love.graphics.draw(bottom, 20+(xoff),20+(yoff),(volume/10)*0.25,1,1,xoff,yoff)
-		else
-			love.graphics.draw(bottom, 20+(xoff),20+(yoff),0.25,1,1,xoff,yoff)
-		end
-	else--]]
-		-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
-		mouthXOff = 73
-		mouthYOff = 149
+	love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	-- Draw a mouth based on mood variable
 		if volume == 0 then
 			if mood == "neutral" then
-				love.graphics.draw(neutralMouth,20,20)
+				love.graphics.draw(neutralMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 			elseif mood == "happy" then
-				love.graphics.draw(happyMouth,20,20)
+				love.graphics.draw(happyMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 			elseif mood == "sad" then
-				love.graphics.draw(sadMouth,20,20)
+				love.graphics.draw(sadMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 			elseif mood == "scared" then
-				love.graphics.draw(scaredMouth,20,20)
+				love.graphics.draw(scaredMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 			elseif mood == "angry" then
-				love.graphics.draw(angryMouth,20,20)
+				love.graphics.draw(angryMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 			end
+		-- swap it for an open one when talking, and scale based on the loudness.
 		elseif volume <= 10 then
-			love.graphics.draw(openmouth, 20+mouthXOff, 20+mouthYOff, 0, 1, volume/5, 75, 150)
+			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/5)), mouthXOff, mouthYOff)
 		else
-			love.graphics.draw(openmouth, 20+mouthXOff, 20+mouthYOff, 0, 1, 2, 75, 150)
+			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
 		end
-	-- another debug value: simply prints the current volume level so you can see how high it goes.
-	love.graphics.print("avg sound: " ..tostring(volume),0,20)
+	
 	if mood == "neutral" then
-		love.graphics.draw(neutralEyes,20,20)
+		love.graphics.draw(neutralEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	elseif mood == "happy" then
-		love.graphics.draw(happyEyes,20,20)
+		love.graphics.draw(happyEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	elseif mood == "sad" then
-		love.graphics.draw(sadEyes,20,20)
+		love.graphics.draw(sadEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	elseif mood == "scared" then
-		love.graphics.draw(scaredEyes,20,20)
+		love.graphics.draw(scaredEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	elseif mood == "angry" then
-		love.graphics.draw(angryEyes,20,20)
+		love.graphics.draw(angryEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	end
+	
+	if hidden == 0 then
+		-- another debug value: simply prints the current volume level so you can see how high it goes.
+		love.graphics.setColor(0,0,0,1)
+		love.graphics.print("avg sound: " ..tostring(volume),0,30,0,xScale,yScale)
+		love.graphics.setColor(1,1,1,1)
+		love.graphics.setColor(0,0,0,1)
+		-- Some debug values so you can see when the Mic is on etc.
+		love.graphics.print("Rec: " ..tostring(Mic:isRecording()),0,0,0,xScale,yScale)
+		love.graphics.print(tostring(Mic:getName()),70,0,0,xScale,yScale)
+		love.graphics.print("Quality: " ..tostring(quality) ..", Amplification: " ..tostring(preAmp) .."%, Noisegate: " ..tostring(noisegate),10,10,0,xScale,yScale)
+		love.graphics.setColor(1,1,1,1)
 	end
 end
 
@@ -203,5 +288,12 @@ function love.keypressed(key)
 			device = 1
 		end
 		Mic=devices[device]
+	end
+	if key == "h" then
+		if hidden == 0 then
+			hidden = 1
+		else
+			hidden = 0
+		end
 	end
 end

@@ -20,6 +20,8 @@ Love2D is only ~8MB and can be used from a folder: no need to do a full install 
 
 "D" = Toggle Recording Device
 
+"H" = Hide or Show Info-Text
+
 
 ## Facial Controls
 Arrow Keys

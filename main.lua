@@ -101,7 +101,9 @@ function love.update(dt)
 		else 
 			loaded = 2
 		end
-		
+		local wid,hig = face:getDimensions()
+		startHeight = hig
+		love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
 	end
 	
 	

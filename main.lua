@@ -5,6 +5,8 @@ function love.load()
 	love.window.setTitle( "FlappingHead" )
 	love.window.setMode( 750, 780, {resizable=true, vsync=false, minwidth=200, minheight=200} )
 	love.graphics.setBackgroundColor( 0, 255, 0, 255 )
+	icon = love.image.newImageData("icon.png")
+	love.window.setIcon(icon)
 	
 	--Setup Scaling
 	startHeight=780

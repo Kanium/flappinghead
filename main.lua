@@ -122,7 +122,7 @@ function love.update(dt)
 	tick = tick + 1
 	if tick > 40 then
 		tick = 1
-		if volume > 10 then
+		if volume >= 5 and volume < 10 then
 			rotation = rotation + (math.random(-1,1)/100)
 			if rotation > bobbleConstant then
 				rotation = bobbleConstant
@@ -132,7 +132,7 @@ function love.update(dt)
 			end
 		end
 		--Double the bobble when louder.
-		if volume > 20 then
+		if volume >= 10 then
 			rotation = rotation + (math.random(-10,10)/100)
 			if rotation > (bobbleConstant*2) then
 				rotation = (bobbleConstant*2)
@@ -221,13 +221,21 @@ function love.draw()
 		love.graphics.print(tostring(Mic:getName()),60,0,0,0.8,0.8)
 		love.graphics.print("Ql:" ..tostring(quality) .." Amp:" ..tostring(preAmp) .."% NGate:" ..tostring(noisegate),00,13,0)
 		love.graphics.setColor(0.2,0.2,0.2,1)
-		love.graphics.rectangle("fill",40,28,50,10)
-		if volume > 10 then
+		love.graphics.rectangle("fill",40,28,100,10)
+		if volume >= 8 then
+			love.graphics.setColor(1,0.7,0.3,1)
+		end
+		if volume >= 10 then
 			love.graphics.setColor(1,0.2,0.2,1)
-		else
+		end
+		if volume < 8 then
 			love.graphics.setColor(0.2,1,0.2,1)
 		end
-		love.graphics.rectangle("fill",40,28,volume*5,10)
+		if volume < 20 then
+			love.graphics.rectangle("fill",40,28,volume*5,10)
+		else
+			love.graphics.rectangle("fill",40,28,100,10)
+		end
 		love.graphics.setColor(1,1,1,1)
 	end
 end

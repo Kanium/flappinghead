@@ -30,7 +30,22 @@ function love.load()
 	rotation = 0
 	tick = 0
 	bobbleConstant = 0.02
-	loaded = 0
+	
+	-- Setting RootDirectory
+	rootDir = love.filesystem.getSourceBaseDirectory()
+	success = love.filesystem.mount(rootDir, "Root")
+
+
+	-- Only check for custom assets if release build
+	if love.filesystem.isFused( ) then
+		loaded = 0
+		--load config
+		chunk = love.filesystem.load("Root/config.lua")
+		chunk()
+	else
+		loaded = 1
+	end
+		
 	-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
 	mouthXOff = 73
 	mouthYOff = 149
@@ -51,13 +66,10 @@ function love.load()
 	angryEyes = love.graphics.newImage("angryEyes.png")
 	scaredEyes = love.graphics.newImage("scaredEyes.png")
 	
-	-- Setting RootDirectory
-	rootDir = love.filesystem.getSourceBaseDirectory()
-	success = love.filesystem.mount(rootDir, "Root")
-
-	--load config
-	chunk = love.filesystem.load("Root/config.lua")
-	chunk()
+	--Set Dimensions of window to the image
+	local wid,hig = face:getDimensions()
+	startHeight = hig
+	love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
 end
 
 
@@ -84,18 +96,16 @@ function love.update(dt)
 			sadEyes = love.graphics.newImage("Root/Custom/sadEyes.png")
 			angryEyes = love.graphics.newImage("Root/Custom/AngryEyes.png")
 			scaredEyes = love.graphics.newImage("Root/Custom/scaredEyes.png")
-			--Set Dimensions of window to the image
-			local wid,hig = face:getDimensions()
-			startHeight = hig
-			love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
+			
 			loaded = 1
 		else 
-			local wid,hig = face:getDimensions()
-			startHeight = hig
-			love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
 			loaded = 2
 		end
+		
 	end
+	
+	
+
 	-- dt is the time passed since update was last called
 	-- This allows us to have a "tick" every 1 second, rather than trying to do our code as fast as possible.
 	t = t + dt
@@ -201,13 +211,21 @@ function love.draw()
 	if hidden == 0 then
 		-- another debug value: simply prints the current volume level so you can see how high it goes.
 		love.graphics.setColor(0,0,0,1)
-		love.graphics.print("avg sound: " ..tostring(volume),0,30,0,xScale,yScale)
+		love.graphics.print("Vol:" ..tostring(volume),0,26,0)
 		love.graphics.setColor(1,1,1,1)
 		love.graphics.setColor(0,0,0,1)
 		-- Some debug values so you can see when the Mic is on etc.
-		love.graphics.print("Rec: " ..tostring(Mic:isRecording()),0,0,0,xScale,yScale)
-		love.graphics.print(tostring(Mic:getName()),70,0,0,xScale,yScale)
-		love.graphics.print("Quality: " ..tostring(quality) ..", Amplification: " ..tostring(preAmp) .."%, Noisegate: " ..tostring(noisegate),10,10,0,xScale,yScale)
+		love.graphics.print("Rec:" ..tostring(Mic:isRecording()),0,0,0)
+		love.graphics.print(tostring(Mic:getName()),60,0,0,0.8,0.8)
+		love.graphics.print("Ql:" ..tostring(quality) .." Amp:" ..tostring(preAmp) .."% NGate:" ..tostring(noisegate),00,13,0)
+		love.graphics.setColor(0.2,0.2,0.2,1)
+		love.graphics.rectangle("fill",40,28,50,10)
+		if volume > 10 then
+			love.graphics.setColor(1,0.2,0.2,1)
+		else
+			love.graphics.setColor(0.2,1,0.2,1)
+		end
+		love.graphics.rectangle("fill",40,28,volume*5,10)
 		love.graphics.setColor(1,1,1,1)
 	end
 end

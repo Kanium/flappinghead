@@ -124,7 +124,7 @@ function love.update(dt)
 	tick = tick + 1
 	if tick > 40 then
 		tick = 1
-		if volume >= 5 and volume < 10 then
+		if volume >= 10 and volume < 20 then
 			rotation = rotation + (math.random(-1,1)/100)
 			if rotation > bobbleConstant then
 				rotation = bobbleConstant
@@ -134,7 +134,7 @@ function love.update(dt)
 			end
 		end
 		--Double the bobble when louder.
-		if volume >= 10 then
+		if volume >= 20 then
 			rotation = rotation + (math.random(-10,10)/100)
 			if rotation > (bobbleConstant*2) then
 				rotation = (bobbleConstant*2)
@@ -194,8 +194,8 @@ function love.draw()
 				love.graphics.draw(angryMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 			end
 		-- swap it for an open one when talking, and scale based on the loudness.
-		elseif volume <= 10 then
-			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/5)), mouthXOff, mouthYOff)
+		elseif volume <= 20 then
+			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/8)), mouthXOff, mouthYOff)
 		else
 			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
 		end
@@ -224,13 +224,13 @@ function love.draw()
 		love.graphics.print("Ql:" ..tostring(quality) .." Amp:" ..tostring(preAmp) .."% NGate:" ..tostring(noisegate),00,13,0)
 		love.graphics.setColor(0.2,0.2,0.2,1)
 		love.graphics.rectangle("fill",40,28,100,10)
-		if volume >= 8 then
+		if volume >= 15 then
 			love.graphics.setColor(1,0.7,0.3,1)
 		end
-		if volume >= 10 then
+		if volume >= 20 then
 			love.graphics.setColor(1,0.2,0.2,1)
 		end
-		if volume < 8 then
+		if volume < 10 then
 			love.graphics.setColor(0.2,1,0.2,1)
 		end
 		if volume < 20 then

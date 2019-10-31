@@ -41,6 +41,10 @@ Arrow Keys
 				|
 			       Sad
 
+### On Using the Program in the background
+This is a pastebin to the script I use for controlling the window without bringing it to the front.
+https://pastebin.com/52uzdnGH
+Look into AutoHotKey if this is a solution you'd like to implement.
 
 ## Custom Assets
 Replace the files in the "Custom" folder with your own graphics. Make sure all parts have the same canvas size (as eachother, not necessarily the same as the originals) so that when overlayed they will be in the appropriate positions.

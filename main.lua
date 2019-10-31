@@ -37,6 +37,10 @@ function love.load()
 	rootDir = love.filesystem.getSourceBaseDirectory()
 	success = love.filesystem.mount(rootDir, "Root")
 
+	-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
+	mouthXOff = 73
+	mouthYOff = 149
+
 
 	-- Only check for custom assets if release build
 	if love.filesystem.isFused( ) then
@@ -48,9 +52,6 @@ function love.load()
 		loaded = 1
 	end
 		
-	-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
-	mouthXOff = 73
-	mouthYOff = 149
 	
 	-- loading our defult images into the code
 	face = love.graphics.newImage("face.png")

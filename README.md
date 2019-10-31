@@ -43,7 +43,7 @@ Arrow Keys
 
 ### On Using the Program in the background
 This is a pastebin to the script I use for controlling the window without bringing it to the front.
-https://pastebin.com/52uzdnGH
+https://pastebin.com/1s30q2Ss
 Look into AutoHotKey if this is a solution you'd like to implement.
 
 ## Custom Assets

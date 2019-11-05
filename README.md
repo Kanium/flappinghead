@@ -1,8 +1,13 @@
 # FlappingHead
-The program is built with Love2D, for a guide on how to use it: https://love2d.org/wiki/Game_Distribution
-Love2D is only ~8MB and can be used from a folder: no need to do a full install in most cases.
+FlappingHead is a voice-activated talking-head program. The program can pick up any mic's current audio and move a mouth (and move the head if there's enough volume coming through) to suit it. At the current stage of development the program is fairly customizeable in that you can use most any art assets to replace the defaults, regardless of size (so long as they fit on the screen). The program has a standard green-screen backdrop for ease of use as an overlay on streams.
+
 
 ![Default Skin](https://i.imgur.com/AgXqgmx.gif) 
+
+## Compiling
+The program is built with Love2D
+You only need to mess with Love2D if you feel like compiling this code, or tweaking it yourself, for a guide on how to use it: https://love2d.org/wiki/Game_Distribution
+
 
 ## Audio Controls
 "S" = Start Recording

@@ -4,6 +4,9 @@ FlappingHead is a voice-activated talking-head program. The program can pick up 
 
 ![Default Skin](https://i.imgur.com/AgXqgmx.gif) 
 
+### Latest Releases:
+https://github.com/Kanium/flappinghead/releases
+
 ## Compiling
 The program is built with Love2D
 You only need to mess with Love2D if you feel like compiling this code, or tweaking it yourself, for a guide on how to use it: https://love2d.org/wiki/Game_Distribution

@@ -24,6 +24,7 @@ function love.load()
 	t=0
 	sample = 0
 	volume = 0
+	rawvolume = 0
 	noisegate = 0
 	preAmp = 300
 	quality = 100
@@ -172,6 +173,8 @@ function love.draw()
 		end
 		-- finally our microphone "volume" is the average of the samples
 		volume = math.floor((test/quality))-noisegate
+		--Raw volume for showing where the noisegate cuts off audio
+		rawvolume = math.floor((test/quality))
 		if volume <= 0 then 
 			volume = 0 
 		end
@@ -216,7 +219,7 @@ function love.draw()
 	if hidden == 0 then
 		-- another debug value: simply prints the current volume level so you can see how high it goes.
 		love.graphics.setColor(0,0,0,1)
-		love.graphics.print("Vol:" ..tostring(volume),0,26,0)
+		love.graphics.print("Vol:" ..tostring(rawvolume),0,26,0)
 		love.graphics.setColor(1,1,1,1)
 		love.graphics.setColor(0,0,0,1)
 		-- Some debug values so you can see when the Mic is on etc.
@@ -235,10 +238,12 @@ function love.draw()
 			love.graphics.setColor(0.2,1,0.2,1)
 		end
 		if volume < 20 then
-			love.graphics.rectangle("fill",40,28,volume*5,10)
+			love.graphics.rectangle("fill",40,28,rawvolume*5,10)
 		else
 			love.graphics.rectangle("fill",40,28,100,10)
 		end
+		love.graphics.setColor(1,1,1,1)
+		love.graphics.line(40+(noisegate*5),28,40+(noisegate*5),38)
 		love.graphics.setColor(1,1,1,1)
 	end
 end

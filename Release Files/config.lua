@@ -23,3 +23,9 @@ qualityUpKey = "]"
 noiseGateUpKey = "kp+"
 noiseGateDownKey = "kp-"
 hideUIKey = "h"
+
+-- Background Color 0-255 RGB and Alpha
+bgRed = 0
+bgGreen = 255
+bgBlue = 0
+bgBrightness = 255

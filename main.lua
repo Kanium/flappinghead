@@ -50,6 +50,12 @@ function love.load()
 	noiseGateDownKey = "kp-"
 	hideUIKey = "h"
 	
+	--Setting the Background Color
+	bgRed = 0
+	bgGreen = 255
+	bgBlue = 0
+	bgBrightness = 255
+	
 	-- Setting RootDirectory
 	rootDir = love.filesystem.getSourceBaseDirectory()
 	success = love.filesystem.mount(rootDir, "Root")
@@ -69,6 +75,7 @@ function love.load()
 		loaded = 1
 	end
 		
+	love.graphics.setBackgroundColor( bgRed,bgGreen,bgBlue,bgBrightness )
 	
 	-- loading our defult images into the code
 	face = love.graphics.newImage("face.png")
@@ -144,22 +151,10 @@ function love.update(dt)
 		tick = 1
 		if volume >= 10 and volume < 20 then
 			rotation = rotation + (math.random(-bobbleConstant*100,bobbleConstant*100)/100)
-			--[[if rotation > bobbleConstant then
-				rotation = bobbleConstant
-			end
-			if rotation < -bobbleConstant then
-				rotation = -bobbleConstant
-			end]]--
 		end
 		--Double the bobble when louder.
 		if volume >= 20 then
 			rotation = rotation + (math.random(-bobbleConstant*200,bobbleConstant*200)/100)
-			--[[if rotation > (bobbleConstant*2) then
-				rotation = (bobbleConstant*2)
-			end
-			if rotation < -(bobbleConstant*2) then
-				rotation = -(bobbleConstant*2)
-			end--]]
 		end
 		-- slowly reset head to default position when not talking.
 		if volume == 0 then

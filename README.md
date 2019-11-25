@@ -2,7 +2,7 @@
 FlappingHead is a voice-activated talking-head program. The program can pick up any mic's current audio and move a mouth (and move the head if there's enough volume coming through) to suit it. At the current stage of development the program is fairly customizeable in that you can use most any art assets to replace the defaults, regardless of size (so long as they fit on the screen). The program has a standard green-screen backdrop for ease of use as an overlay on streams.
 
 
-![Default Skin](https://i.imgur.com/AgXqgmx.gif) 
+![Default Skin](https://i.imgur.com/FsbxwdA.gif) 
 
 ### Latest Releases:
 https://github.com/Kanium/flappinghead/releases

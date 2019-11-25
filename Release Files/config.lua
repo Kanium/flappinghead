@@ -7,3 +7,19 @@ mouthYOff = 149
 noisegate = 0
 preAmp = 200
 quality = 100
+-- Key Bindings
+-- For a list of "names" for the keys see: https://love2d.org/wiki/KeyConstant
+-- Key Bindings must be in quotation marks
+toggleMicKey = "p"
+changeMicKey = "d"
+moodUpKey = "up"
+moodDownKey = "down"
+moodRightKey = "right"
+moodLeftKey = "left"
+preAmpDownKey = "-"
+preAmpUpKey = "="
+qualityDownKey = "["
+qualityUpKey = "]"
+noiseGateUpKey = "kp+"
+noiseGateDownKey = "kp-"
+hideUIKey = "h"

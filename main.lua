@@ -34,6 +34,21 @@ function love.load()
 	tick = 0
 	bobbleConstant = 0.02
 	
+	--Default Keybinds
+	toggleMicKey = "p"
+	changeMicKey = "d"
+	moodUpKey = "up"
+	moodDownKey = "down"
+	moodRightKey = "right"
+	moodLeftKey = "left"
+	preAmpDownKey = "-"
+	preAmpUpKey = "="
+	qualityDownKey = "["
+	qualityUpKey = "]"
+	noiseGateUpKey = "kp+"
+	noiseGateDownKey = "kp-"
+	hideUIKey = "h"
+	
 	-- Setting RootDirectory
 	rootDir = love.filesystem.getSourceBaseDirectory()
 	success = love.filesystem.mount(rootDir, "Root")
@@ -250,74 +265,75 @@ end
 
 function love.keypressed(key)
 	-- Start and stop the microphone. In theory the values in start() setup the microphone's samplerate etc. But I cannot be certain it works at all.
-	if key == "s" then
-		Mic:start(7680, 7680, 16, 1)
-		recording = 1
-	end
-	if key == "p" then
-		recording = 0
-		Mic:stop()
+	if key == toggleMicKey then
+		if recording == 0 then
+			Mic:start(7680, 7680, 16, 1)
+			recording = 1
+		else
+			recording = 0
+			Mic:stop()
+		end
 	end
 	-- Mood toggling
-	if key == "up" then
+	if key == moodUpKey then
 		if mood == "sad" then
 			mood = "neutral"
 		else
 			mood = "happy"
 		end
 	end
-	if key == "down" then
+	if key == moodDownKey then
 		if mood == "happy" then
 			mood = "neutral"
 		else
 			mood = "sad"
 		end
 	end
-	if key == "right" then
+	if key == moodRightKey then
 		if mood == "scared" then
 			mood = "neutral"
 		else
 			mood = "angry"
 		end
 	end
-	if key == "left" then
+	if key == moodLeftKey then
 		if mood == "angry" then
 			mood = "neutral"
 		else
 			mood = "scared"
 		end
 	end
-	if key == "-" then
+	if key == preAmpDownKey then
 		if preAmp >= 10 then
 			preAmp = preAmp - 10
 		end
 	end
-	if key == "=" then
+	if key == preAmpUpKey then
 		if preAmp < 1000 then
 			preAmp = preAmp + 10
 		end
 	end
-	if key == "[" then
+	if key == qualityDownKey then
 		if quality >= 20 then
 			quality = quality - 10
 		end
 	end
-	if key == "]" then
+	if key == qualityUpKey then
 		if quality < 500 then
 			quality = quality + 10
 		end
 	end
-	if key == "kp+" then
+	if key == noiseGateUpKey then
 		if noisegate < 50 then
 			noisegate = noisegate + 1
 		end
 	end
-	if key == "kp-" then
+	if key == noiseGateDownKey then
 		if noisegate >= 1 then
 			noisegate = noisegate - 1
 		end
 	end
-	if key == "d" then
+	if key == changeMicKey then
 		if device < #devices then
 			device = device + 1
 		else
@@ -325,7 +341,7 @@ function love.keypressed(key)
 		end
 		Mic=devices[device]
 	end
-	if key == "h" then
+	if key == hideUIKey then
 		if hidden == 0 then
 			hidden = 1
 		else

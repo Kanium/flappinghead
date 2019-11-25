@@ -32,6 +32,7 @@ function love.load()
 	hidden = 0
 	rotation = 0
 	tick = 0
+	--0.01-0.1 are "normal" values higher = more extreme
 	bobbleConstant = 0.02
 	
 	--Default Keybinds
@@ -54,8 +55,8 @@ function love.load()
 	success = love.filesystem.mount(rootDir, "Root")
 
 	-- find the offsets by moving your mouse over the center of the mouth, and seeing the x and y coordinates in pixels.
-	mouthXOff = 73
-	mouthYOff = 149
+	mouthXOff = 158
+	mouthYOff = 395
 
 
 	-- Only check for custom assets if release build
@@ -139,34 +140,34 @@ function love.update(dt)
 	
 	-- Set up Bobble Animation to only adjust every 40 ticks so as not to overload the cpu
 	tick = tick + 1
-	if tick > 40 then
+	if tick > 20 then
 		tick = 1
 		if volume >= 10 and volume < 20 then
-			rotation = rotation + (math.random(-1,1)/100)
-			if rotation > bobbleConstant then
+			rotation = rotation + (math.random(-bobbleConstant*100,bobbleConstant*100)/100)
+			--[[if rotation > bobbleConstant then
 				rotation = bobbleConstant
 			end
 			if rotation < -bobbleConstant then
 				rotation = -bobbleConstant
-			end
+			end]]--
 		end
 		--Double the bobble when louder.
 		if volume >= 20 then
-			rotation = rotation + (math.random(-10,10)/100)
-			if rotation > (bobbleConstant*2) then
+			rotation = rotation + (math.random(-bobbleConstant*200,bobbleConstant*200)/100)
+			--[[if rotation > (bobbleConstant*2) then
 				rotation = (bobbleConstant*2)
 			end
 			if rotation < -(bobbleConstant*2) then
 				rotation = -(bobbleConstant*2)
-			end
+			end--]]
 		end
 		-- slowly reset head to default position when not talking.
 		if volume == 0 then
 			if rotation > 0 then
-				rotation = rotation - 0.01
+				rotation = rotation - bobbleConstant
 			end
 			if rotation < 0 then
-				rotation = rotation + 0.01
+				rotation = rotation + bobbleConstant
 			end
 		end
 	end

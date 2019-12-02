@@ -13,9 +13,7 @@ You only need to mess with Love2D if you feel like compiling this code, or tweak
 
 
 ## Audio Controls
-"S" = Start Recording
-
-"P" = Stop Recording (Pause)
+"P" = Toggle Recording
 
 "=" = preAmp +
 

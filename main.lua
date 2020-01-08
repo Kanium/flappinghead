@@ -93,6 +93,12 @@ function love.load()
 	angryEyes = love.graphics.newImage("angryEyes.png")
 	scaredEyes = love.graphics.newImage("scaredEyes.png")
 	
+	
+	--default mouths
+	staticMouth = neutralMouth
+	talkMouth = openmouth
+	moodEyes = neutralEyes
+	
 	--Set Dimensions of window to the image
 	local wid,hig = face:getDimensions()
 	startHeight = hig
@@ -123,6 +129,46 @@ function love.update(dt)
 			sadEyes = love.graphics.newImage("Root/Custom/sadEyes.png")
 			angryEyes = love.graphics.newImage("Root/Custom/AngryEyes.png")
 			scaredEyes = love.graphics.newImage("Root/Custom/scaredEyes.png")
+			
+			--Image Extras (Enable them individually in the config file)
+			if enableangryEyes2 == true then
+				angryEyes2 = love.graphics.newImage("Root/Custom/angryEyes2.png")
+			end
+			if enableangryMouth2 == true then
+				angryMouth2 = love.graphics.newImage("Root/Custom/angryMouth2.png")
+			end
+			if enablehappyEyes2 == true then
+				happyEyes2 = love.graphics.newImage("Root/Custom/happyEyes2.png")
+			end
+			if enablehappyMouth2 == true then
+				happyMouth2 = love.graphics.newImage("Root/Custom/happyMouth2.png")
+			end
+			if enablesadEyes2 == true then
+				sadEyes2 = love.graphics.newImage("Root/Custom/sadEyes2.png")
+			end
+			if enablesadMouth2 == true then
+				sadMouth2 = love.graphics.newImage("Root/Custom/sadMouth2.png")
+			end
+			if enablescaredEyes2 == true then
+				scaredEyes2 = love.graphics.newImage("Root/Custom/scaredEyes2.png")
+			end
+			if enablescaredMouth2 == true then
+				scaredMouth2 = love.graphics.newImage("Root/Custom/scaredMouth2.png")
+			end
+
+			--Mouth Extras
+			if enableopenangryMouth == true then
+				openangryMouth = love.graphics.newImage("Root/Custom/openangryMouth.png")
+			end
+			if enableopenhappyMouth == true then
+				openhappyMouth = love.graphics.newImage("Root/Custom/openhappyMouth.png")
+			end
+			if enableopenscaredMouth == true then
+				openscaredMouth = love.graphics.newImage("Root/Custom/openscaredMouth.png")
+			end
+			if enableopensadMouth == true then
+				opensadMouth = love.graphics.newImage("Root/Custom/opensadMouth.png")
+			end
 			
 			loaded = 1
 		else 
@@ -196,36 +242,111 @@ function love.draw()
 	love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	-- Draw a mouth based on mood variable
-		if volume == 0 then
-			if mood == "neutral" then
-				love.graphics.draw(neutralMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-			elseif mood == "happy" then
-				love.graphics.draw(happyMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-			elseif mood == "sad" then
-				love.graphics.draw(sadMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-			elseif mood == "scared" then
-				love.graphics.draw(scaredMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-			elseif mood == "angry" then
-				love.graphics.draw(angryMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-			end
-		-- swap it for an open one when talking, and scale based on the loudness.
-		elseif volume <= 20 then
-			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/8)), mouthXOff, mouthYOff)
+	if mood == "neutral" then
+		staticMouth = neutralMouth
+		talkMouth = openmouth
+	elseif mood == "happy" then
+		staticMouth = happyMouth
+		if enableopenhappyMouth == true then
+			talkMouth = openhappyMouth
 		else
-			love.graphics.draw(openmouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
+			talkMouth = openmouth
 		end
+	elseif mood == "sad" then
+		staticMouth = sadMouth
+		if enableopensadMouth == true then
+			talkMouth = opensadMouth
+		else
+			talkMouth = openmouth
+		end
+	elseif mood == "scared" then
+		staticMouth = scaredMouth
+		if enableopenscaredMouth == true then
+			talkMouth = openscaredMouth
+		else
+			talkMouth = openmouth
+		end
+	elseif mood == "angry" then
+		staticMouth = angryMouth
+		if enableopenangryMouth == true then
+			talkMouth = openangryMouth
+		else
+			talkMouth = openmouth
+		end
+	elseif mood == "happy2" then
+		if enablehappyMouth2 == true then
+			staticMouth = happyMouth2
+		else
+			staticMouth = happyMouth
+		end
+		if enableopenhappyMouth == true then
+			talkMouth = openhappyMouth
+		else
+			talkMouth = openmouth
+		end
+	elseif mood == "sad2" then
+		if enablesadMouth2 == true then
+			staticMouth = sadMouth2
+		else
+			staticMouth = sadMouth
+		end
+		if enableopensadMouth == true then
+			talkMouth = opensadMouth
+		else
+			talkMouth = openmouth
+		end
+	elseif mood == "scared2" then
+		if enablescaredMouth2 == true then
+			staticMouth = scaredMouth2
+		else
+			staticMouth = scaredMouth
+		end
+		if enableopenscaredMouth == true then
+			talkMouth = openscaredMouth
+		else
+			talkMouth = openmouth
+		end
+	elseif mood == "angry2" then
+		if enableangryMouth2 == true then
+			staticMouth = angryMouth2
+		else
+			staticMouth = angryMouth
+		end
+		if enableopenangryMouth == true then
+			talkMouth = openangryMouth
+		else
+			talkMouth = openmouth
+		end
+	end
+	if volume == 0 then
+		love.graphics.draw(staticMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	-- swap it for an open one when talking, and scale based on the loudness.
+	elseif volume <= 20 then
+		love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/8)), mouthXOff, mouthYOff)
+	else
+		love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
+	end
 	
 	if mood == "neutral" then
-		love.graphics.draw(neutralEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		moodEyes = neutralEyes
 	elseif mood == "happy" then
-		love.graphics.draw(happyEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		moodEyes = happyEyes
 	elseif mood == "sad" then
-		love.graphics.draw(sadEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		moodEyes = sadEyes
 	elseif mood == "scared" then
-		love.graphics.draw(scaredEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		moodEyes = scaredEyes
 	elseif mood == "angry" then
-		love.graphics.draw(angryEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		moodEyes = angryEyes
+	elseif mood == "happy2" then
+		moodEyes = happyEyes2
+	elseif mood == "sad2" then
+		moodEyes = sadEyes2
+	elseif mood == "scared2" then
+		moodEyes = scaredEyes2
+	elseif mood == "angry2" then
+		moodEyes = angryEyes2
 	end
+	love.graphics.draw(moodEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 	
 	if hidden == 0 then
 		-- another debug value: simply prints the current volume level so you can see how high it goes.
@@ -274,29 +395,45 @@ function love.keypressed(key)
 	if key == moodUpKey then
 		if mood == "sad" then
 			mood = "neutral"
-		else
+		elseif mood == "sad2" then
+			mood = "sad"
+		elseif mood == "neutral" then
 			mood = "happy"
+		elseif mood == "happy" and enablehappyEyes2 == true then
+			mood = "happy2"
 		end
 	end
 	if key == moodDownKey then
 		if mood == "happy" then
 			mood = "neutral"
-		else
+		elseif mood == "happy2" then
+			mood = "happy"
+		elseif mood == "neutral" then
 			mood = "sad"
+		elseif mood == "sad" and enablesadEyes2 == true then
+			mood = "sad2"
 		end
 	end
 	if key == moodRightKey then
 		if mood == "scared" then
 			mood = "neutral"
-		else
+		elseif mood == "scared2" then
+			mood = "scared"
+		elseif mood == "neutral" then
 			mood = "angry"
+		elseif mood == "angry" and enableangryEyes2 == true then
+			mood = "angry2"
 		end
 	end
 	if key == moodLeftKey then
 		if mood == "angry" then
 			mood = "neutral"
-		else
+		elseif mood == "angry2" then
+			mood = "angry"
+		elseif mood == "neutral" then
 			mood = "scared"
+		elseif mood == "scared" and enableangryEyes2 == true then
+			mood = "scared2"
 		end
 	end
 	if key == preAmpDownKey then

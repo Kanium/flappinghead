@@ -29,3 +29,19 @@ bgRed = 0
 bgGreen = 255
 bgBlue = 0
 bgBrightness = 255
+
+--Face Extras
+enableangryEyes2 = false
+enableangryMouth2 = false
+enablehappyEyes2 = false
+enablehappyMouth2 = false
+enablesadEyes2 = false
+enablesadMouth2 = false
+enablescaredEyes2 = false
+enablescaredMouth2 = false
+
+--Mouth Extras
+enableopenangryMouth = false
+enableopenhappyMouth = false
+enableopenscaredMouth = false
+enableopensadMouth = false

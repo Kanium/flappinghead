@@ -396,44 +396,60 @@ function love.keypressed(key)
 		if mood == "sad" then
 			mood = "neutral"
 		elseif mood == "sad2" then
-			mood = "sad"
+			mood = "neutral"
 		elseif mood == "neutral" then
 			mood = "happy"
 		elseif mood == "happy" and enablehappyEyes2 == true then
 			mood = "happy2"
+		elseif mood == "happy2" then
+			mood = "happy2"
+		else
+			mood = "happy"
 		end
 	end
 	if key == moodDownKey then
 		if mood == "happy" then
 			mood = "neutral"
 		elseif mood == "happy2" then
-			mood = "happy"
+			mood = "neutral"
 		elseif mood == "neutral" then
 			mood = "sad"
 		elseif mood == "sad" and enablesadEyes2 == true then
 			mood = "sad2"
+		elseif mood == "sad2" then
+			mood = "sad2"
+		else
+			mood = "sad"
 		end
 	end
 	if key == moodRightKey then
 		if mood == "scared" then
 			mood = "neutral"
 		elseif mood == "scared2" then
-			mood = "scared"
+			mood = "neutral"
 		elseif mood == "neutral" then
 			mood = "angry"
 		elseif mood == "angry" and enableangryEyes2 == true then
 			mood = "angry2"
+		elseif mood == "angry2" then
+			mood = "angry2"
+		else
+			mood = "angry"
 		end
 	end
 	if key == moodLeftKey then
 		if mood == "angry" then
 			mood = "neutral"
 		elseif mood == "angry2" then
-			mood = "angry"
+			mood = "neutral"
 		elseif mood == "neutral" then
 			mood = "scared"
 		elseif mood == "scared" and enableangryEyes2 == true then
 			mood = "scared2"
+		elseif mood == "scared2" then
+			mood = "scared2"
+		else
+			mood = "scared"
 		end
 	end
 	if key == preAmpDownKey then

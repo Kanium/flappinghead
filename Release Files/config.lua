@@ -46,5 +46,5 @@ enableopenhappyMouth = false
 enableopenscaredMouth = false
 enableopensadMouth = false
 
---Prop
+--Prop Extras
 enableProp = false

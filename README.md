@@ -50,14 +50,18 @@ Arrow Keys
 				|
 			       Sad
 
-### On Using the Program in the background
-This is a pastebin to the script I use for controlling the window without bringing it to the front.
-https://pastebin.com/1s30q2Ss
-Look into AutoHotKey if this is a solution you'd like to implement.
-
 ## Custom Assets
 Replace the files in the "Custom" folder with your own graphics. Make sure all parts have the same canvas size (as eachother, not necessarily the same as the originals) so that when overlayed they will be in the appropriate positions.
 
 You must maintain the original filenames exactly, capitalization matters.
 
 Do not delete any of the files. If you need a layer not to show up, simply make an empty transparent png with the same name.
+
+### On Using the Program in the background
+This is a pastebin to the script I use for controlling the window without bringing it to the front.
+https://pastebin.com/1s30q2Ss
+Look into AutoHotKey if this is a solution you'd like to implement.
+
+### On Animating a second Face for discord buddy
+This walkthrough is too long to post here, but I've created a handy guide with pictures and such here:
+https://www.mediafire.com/file/gjhrhpwlyduursd/Discordflappinghead.pdf/file

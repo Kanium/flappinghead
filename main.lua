@@ -170,6 +170,11 @@ function love.update(dt)
 				opensadMouth = love.graphics.newImage("Root/Custom/opensadMouth.png")
 			end
 			
+			--Prop
+			if enableProp == true then
+				prop = love.graphics.newImage("Root/Custom/Prop.png")
+			end
+			
 			loaded = 1
 		else 
 			loaded = 2
@@ -347,6 +352,11 @@ function love.draw()
 		moodEyes = angryEyes2
 	end
 	love.graphics.draw(moodEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	
+	--Draw Prop over everything else
+	if enableProp == true then
+		love.graphics.draw(prop,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+	end
 	
 	if hidden == 0 then
 		-- another debug value: simply prints the current volume level so you can see how high it goes.

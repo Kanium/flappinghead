@@ -4,10 +4,10 @@ function love.load()
 	-- Setup the window
 	love.window.setTitle( "FlappingHead" )
 	love.window.setMode( 750, 780, {resizable=true, vsync=false, minwidth=200, minheight=200} )
-	love.graphics.setBackgroundColor( 0, 255, 0, 255 )
 	icon = love.image.newImageData("icon.png")
 	love.window.setIcon(icon)
-	
+	screenHeight = 2000
+	screenWidth = 2000
 	
 	
 	--Setup Scaling
@@ -211,6 +211,8 @@ function love.resize(w,h)
 	yScale = h/startHeight
 	xScale = (yScale/26)*25
 	effect.resize(w, h)
+	screenHeight = h
+	screenWidth = w
 end
 
 

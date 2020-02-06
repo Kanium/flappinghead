@@ -30,6 +30,11 @@ bgGreen = 255
 bgBlue = 0
 bgBrightness = 255
 
+-- Change Filter Mode for scaling 
+--("nearest" is default, but for smoother scaling you can use "linear")
+filterMode = "nearest"
+anistropy = 0
+
 --Face Extras
 enableangryEyes2 = false
 enableangryMouth2 = false

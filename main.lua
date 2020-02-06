@@ -9,6 +9,7 @@ function love.load()
 	love.window.setIcon(icon)
 	
 	
+	
 	--Setup Scaling
 	startHeight=780
 	xScale = 1
@@ -56,6 +57,8 @@ function love.load()
 	bgGreen = 255
 	bgBlue = 0
 	bgBrightness = 255
+	filterMode = "nearest"
+	anistropy = 0
 	
 	-- Setting RootDirectory
 	rootDir = love.filesystem.getSourceBaseDirectory()
@@ -77,6 +80,7 @@ function love.load()
 	end
 		
 	love.graphics.setBackgroundColor( bgRed,bgGreen,bgBlue,bgBrightness )
+	love.graphics.setDefaultFilter( filterMode, filterMode, anistropy )
 	
 	-- loading our defult images into the code
 	face = love.graphics.newImage("face.png")

@@ -1,4 +1,4 @@
-
+local moonshine = require 'moonshine'
 
 function love.load()
 	-- Setup the window
@@ -7,6 +7,7 @@ function love.load()
 	love.graphics.setBackgroundColor( 0, 255, 0, 255 )
 	icon = love.image.newImageData("icon.png")
 	love.window.setIcon(icon)
+	
 	
 	--Setup Scaling
 	startHeight=780
@@ -103,12 +104,109 @@ function love.load()
 	local wid,hig = face:getDimensions()
 	startHeight = hig
 	love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
+	
+	
+	--Shaders
+	effect = moonshine(moonshine.effects.filmgrain).chain(moonshine.effects.vignette).chain(moonshine.effects.fog).chain(moonshine.effects.boxblur).chain(moonshine.effects.chromasep).chain(moonshine.effects.colorgradesimple).chain(moonshine.effects.crt).chain(moonshine.effects.desaturate).chain(moonshine.effects.dmg).chain(moonshine.effects.fastgaussianblur).chain(moonshine.effects.gaussianblur).chain(moonshine.effects.glow).chain(moonshine.effects.godsray).chain(moonshine.effects.pixelate).chain(moonshine.effects.posterize).chain(moonshine.effects.scanlines).chain(moonshine.effects.sketch)
+	
+	--Turn off by default
+	effect.disable("fog","filmgrain","vignette","boxblur","chromasep","colorgradesimple","crt","desaturate","dmg","fastgaussianblur","gaussianblur","glow","godsray","pixelate","posterize","scanlines","sketch")
+	
+	--boxblur
+	effect.boxblur.radius_x = 3
+	effect.boxblur.radius_y = 3
+	
+	--chromasep
+	effect.chromasep.angle = 0
+	effect.chromasep.radius = 0
+	
+	--colorgradesimple
+	effect.colorgradesimple.factors = {1,1,1}
+	
+	--crt
+	effect.crt.x = 1.06
+	effect.crt.y = 1.065
+	effect.crt.scaleFactor = {1,1}
+	effect.crt.feather = 0.02
+	
+	--desaturate
+	effect.desaturate.tint = {255,255,255}
+	effect.desaturate.strength = 0.5
+	
+	--dmg
+	effect.dmg.palette = "pocket"
+	
+	--fastgaussianblur
+	effect.fastgaussianblur.taps = 7
+	effect.fastgaussianblur.offset = 1
+	effect.fastgaussianblur.sigma = -1
+	
+	--filmgrain
+	effect.filmgrain.opacity = 0.3
+	effect.filmgrain.size = 1
+	
+	--gaussianblur
+	effect.gaussianblur.sigma = 1
+	
+	--glow
+	effect.glow.min_luma = 0.1
+	effect.glow.strength = 10
+	
+	--godsray
+	effect.godsray.exposure = 0.5
+	effect.godsray.decay = 0.95
+	effect.godsray.density = 0.05
+	effect.godsray.weight = 0.5
+	effect.godsray.light_x = 0.5
+	effect.godsray.light_y = 0.5
+	effect.godsray.samples = 70
+	
+	--pixelate
+	effect.pixelate.size = {5,5}
+	effect.pixelate.feedback = 0
+	
+	--posterize
+	effect.posterize.num_bands = 3
+	
+	--scanlines
+	effect.scanlines.width = 2
+	effect.scanlines.phase = 0
+	effect.scanlines.thickness = 1
+	effect.scanlines.opacity = 1
+	effect.scanlines.color = {0,0,0}
+	
+	--sketch
+	effect.sketch.amp = 0.0007
+	effect.sketch.center = {0,0}
+	
+	--vignette
+	effect.vignette.radius = 0.8
+	effect.vignette.softness = 0.5
+	effect.vignette.opacity = 0.5
+	effect.vignette.color = {0,0,0}
+	
+	--fog
+	effect.fog.fog_color = {0.35, 0.48, 0.95}
+	effect.fog.octaves = 4
+	effect.fog.speed = {0.5,0.5}
+	
+	-- Only check for custom assets if release build
+	if love.filesystem.isFused( ) then
+		loaded = 0
+		--load config
+		chunk = love.filesystem.load("Root/shader.lua")
+		chunk()
+	else
+		loaded = 1
+	end
+	
 end
 
 
 function love.resize(w,h)
 	yScale = h/startHeight
 	xScale = (yScale/26)*25
+	effect.resize(w, h)
 end
 
 
@@ -241,122 +339,125 @@ function love.draw()
 			volume = 0 
 		end
 	end	
-	
-	-- Make sure to layer your pieces properly, Bottom layer first.
-	love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-	love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-	love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-	-- Draw a mouth based on mood variable
-	if mood == "neutral" then
-		staticMouth = neutralMouth
-		talkMouth = openmouth
-	elseif mood == "happy" then
-		staticMouth = happyMouth
-		if enableopenhappyMouth == true then
-			talkMouth = openhappyMouth
-		else
+	effect(function()
+		-- Make sure to layer your pieces properly, Bottom layer first.
+		love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		
+		-- Draw a mouth based on mood variable
+		if mood == "neutral" then
+			staticMouth = neutralMouth
 			talkMouth = openmouth
-		end
-	elseif mood == "sad" then
-		staticMouth = sadMouth
-		if enableopensadMouth == true then
-			talkMouth = opensadMouth
-		else
-			talkMouth = openmouth
-		end
-	elseif mood == "scared" then
-		staticMouth = scaredMouth
-		if enableopenscaredMouth == true then
-			talkMouth = openscaredMouth
-		else
-			talkMouth = openmouth
-		end
-	elseif mood == "angry" then
-		staticMouth = angryMouth
-		if enableopenangryMouth == true then
-			talkMouth = openangryMouth
-		else
-			talkMouth = openmouth
-		end
-	elseif mood == "happy2" then
-		if enablehappyMouth2 == true then
-			staticMouth = happyMouth2
-		else
+		elseif mood == "happy" then
 			staticMouth = happyMouth
-		end
-		if enableopenhappyMouth == true then
-			talkMouth = openhappyMouth
-		else
-			talkMouth = openmouth
-		end
-	elseif mood == "sad2" then
-		if enablesadMouth2 == true then
-			staticMouth = sadMouth2
-		else
+			if enableopenhappyMouth == true then
+				talkMouth = openhappyMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "sad" then
 			staticMouth = sadMouth
-		end
-		if enableopensadMouth == true then
-			talkMouth = opensadMouth
-		else
-			talkMouth = openmouth
-		end
-	elseif mood == "scared2" then
-		if enablescaredMouth2 == true then
-			staticMouth = scaredMouth2
-		else
+			if enableopensadMouth == true then
+				talkMouth = opensadMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "scared" then
 			staticMouth = scaredMouth
-		end
-		if enableopenscaredMouth == true then
-			talkMouth = openscaredMouth
-		else
-			talkMouth = openmouth
-		end
-	elseif mood == "angry2" then
-		if enableangryMouth2 == true then
-			staticMouth = angryMouth2
-		else
+			if enableopenscaredMouth == true then
+				talkMouth = openscaredMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "angry" then
 			staticMouth = angryMouth
+			if enableopenangryMouth == true then
+				talkMouth = openangryMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "happy2" then
+			if enablehappyMouth2 == true then
+				staticMouth = happyMouth2
+			else
+				staticMouth = happyMouth
+			end
+			if enableopenhappyMouth == true then
+				talkMouth = openhappyMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "sad2" then
+			if enablesadMouth2 == true then
+				staticMouth = sadMouth2
+			else
+				staticMouth = sadMouth
+			end
+			if enableopensadMouth == true then
+				talkMouth = opensadMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "scared2" then
+			if enablescaredMouth2 == true then
+				staticMouth = scaredMouth2
+			else
+				staticMouth = scaredMouth
+			end
+			if enableopenscaredMouth == true then
+				talkMouth = openscaredMouth
+			else
+				talkMouth = openmouth
+			end
+		elseif mood == "angry2" then
+			if enableangryMouth2 == true then
+				staticMouth = angryMouth2
+			else
+				staticMouth = angryMouth
+			end
+			if enableopenangryMouth == true then
+				talkMouth = openangryMouth
+			else
+				talkMouth = openmouth
+			end
 		end
-		if enableopenangryMouth == true then
-			talkMouth = openangryMouth
+		
+		if volume == 0 then
+			love.graphics.draw(staticMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		-- swap it for an open one when talking, and scale based on the loudness.
+		elseif volume <= 20 then
+			love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/8)), mouthXOff, mouthYOff)
 		else
-			talkMouth = openmouth
+			love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
 		end
-	end
-	if volume == 0 then
-		love.graphics.draw(staticMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-	-- swap it for an open one when talking, and scale based on the loudness.
-	elseif volume <= 20 then
-		love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 1), (yScale * (volume/8)), mouthXOff, mouthYOff)
-	else
-		love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
-	end
-	
-	if mood == "neutral" then
-		moodEyes = neutralEyes
-	elseif mood == "happy" then
-		moodEyes = happyEyes
-	elseif mood == "sad" then
-		moodEyes = sadEyes
-	elseif mood == "scared" then
-		moodEyes = scaredEyes
-	elseif mood == "angry" then
-		moodEyes = angryEyes
-	elseif mood == "happy2" then
-		moodEyes = happyEyes2
-	elseif mood == "sad2" then
-		moodEyes = sadEyes2
-	elseif mood == "scared2" then
-		moodEyes = scaredEyes2
-	elseif mood == "angry2" then
-		moodEyes = angryEyes2
-	end
-	love.graphics.draw(moodEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-	
-	--Draw Prop over everything else
-	if enableProp == true then
-		love.graphics.draw(prop,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-	end
+		
+		if mood == "neutral" then
+			moodEyes = neutralEyes
+		elseif mood == "happy" then
+			moodEyes = happyEyes
+		elseif mood == "sad" then
+			moodEyes = sadEyes
+		elseif mood == "scared" then
+			moodEyes = scaredEyes
+		elseif mood == "angry" then
+			moodEyes = angryEyes
+		elseif mood == "happy2" then
+			moodEyes = happyEyes2
+		elseif mood == "sad2" then
+			moodEyes = sadEyes2
+		elseif mood == "scared2" then
+			moodEyes = scaredEyes2
+		elseif mood == "angry2" then
+			moodEyes = angryEyes2
+		end
+			love.graphics.draw(moodEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		
+		--Draw Prop over everything else
+		if enableProp == true then
+			love.graphics.draw(prop,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		end
+	end)
 	
 	if hidden == 0 then
 		-- another debug value: simply prints the current volume level so you can see how high it goes.

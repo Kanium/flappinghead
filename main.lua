@@ -111,7 +111,7 @@ function love.load()
 	
 	
 	--Shaders
-	effect = moonshine(moonshine.effects.filmgrain).chain(moonshine.effects.vignette).chain(moonshine.effects.fog).chain(moonshine.effects.boxblur).chain(moonshine.effects.chromasep).chain(moonshine.effects.colorgradesimple).chain(moonshine.effects.crt).chain(moonshine.effects.desaturate).chain(moonshine.effects.dmg).chain(moonshine.effects.fastgaussianblur).chain(moonshine.effects.gaussianblur).chain(moonshine.effects.glow).chain(moonshine.effects.godsray).chain(moonshine.effects.pixelate).chain(moonshine.effects.posterize).chain(moonshine.effects.scanlines).chain(moonshine.effects.sketch)
+	effect = moonshine(2000,2000, moonshine.effects.filmgrain).chain(moonshine.effects.vignette).chain(moonshine.effects.fog).chain(moonshine.effects.boxblur).chain(moonshine.effects.chromasep).chain(moonshine.effects.colorgradesimple).chain(moonshine.effects.crt).chain(moonshine.effects.desaturate).chain(moonshine.effects.dmg).chain(moonshine.effects.fastgaussianblur).chain(moonshine.effects.gaussianblur).chain(moonshine.effects.glow).chain(moonshine.effects.godsray).chain(moonshine.effects.pixelate).chain(moonshine.effects.posterize).chain(moonshine.effects.scanlines).chain(moonshine.effects.sketch)
 	
 	--Turn off by default
 	effect.disable("fog","filmgrain","vignette","boxblur","chromasep","colorgradesimple","crt","desaturate","dmg","fastgaussianblur","gaussianblur","glow","godsray","pixelate","posterize","scanlines","sketch")
@@ -511,7 +511,7 @@ function love.keypressed(key)
 		if mood == "sad" then
 			mood = "neutral"
 		elseif mood == "sad2" then
-			mood = "neutral"
+			mood = "sad"
 		elseif mood == "neutral" then
 			mood = "happy"
 		elseif mood == "happy" and enablehappyEyes2 == true then
@@ -526,7 +526,7 @@ function love.keypressed(key)
 		if mood == "happy" then
 			mood = "neutral"
 		elseif mood == "happy2" then
-			mood = "neutral"
+			mood = "happy"
 		elseif mood == "neutral" then
 			mood = "sad"
 		elseif mood == "sad" and enablesadEyes2 == true then
@@ -541,7 +541,7 @@ function love.keypressed(key)
 		if mood == "scared" then
 			mood = "neutral"
 		elseif mood == "scared2" then
-			mood = "neutral"
+			mood = "scared"
 		elseif mood == "neutral" then
 			mood = "angry"
 		elseif mood == "angry" and enableangryEyes2 == true then
@@ -556,7 +556,7 @@ function love.keypressed(key)
 		if mood == "angry" then
 			mood = "neutral"
 		elseif mood == "angry2" then
-			mood = "neutral"
+			mood = "angry"
 		elseif mood == "neutral" then
 			mood = "scared"
 		elseif mood == "scared" and enableangryEyes2 == true then

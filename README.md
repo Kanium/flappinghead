@@ -4,6 +4,9 @@ FlappingHead is a voice-activated talking-head program. The program can pick up 
 
 ![Default Skin](https://i.imgur.com/FsbxwdA.gif) 
 
+## Post-Processing Shaders
+![Shaders](https://i.gyazo.com/c040308c1e2e7ca7b0cc67c6acd3dd16.png)
+
 ### Latest Releases:
 https://github.com/Kanium/flappinghead/releases
 

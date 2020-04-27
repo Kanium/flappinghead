@@ -72,6 +72,9 @@ Do not delete any of the files. If you need a layer not to show up, simply make 
 #### Props
 The Props folder is for any props you want to overlay on top of everything. They will still bobble with the head. Make sure to enableProps in the config.lua and don't forget to toggle the prop on as well.
 
+### Settings Explanations
+https://github.com/Kanium/flappinghead/wiki/Audio-Settings
+
 ### On Using the Program in the background
 This is a pastebin to the script I use for controlling the window without bringing it to the front.
 https://pastebin.com/1s30q2Ss

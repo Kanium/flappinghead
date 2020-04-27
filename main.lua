@@ -435,7 +435,7 @@ function love.draw()
 	
 	if hidden == 0 then
 		drawMicControls()
-		if enableProp == true and propToggle == true then
+		if enableProp == true then
 			love.graphics.print(propNames[prop], 180, 13)
 		end
 	end

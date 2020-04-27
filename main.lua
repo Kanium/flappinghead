@@ -16,7 +16,13 @@ function love.load()
 	xScale = 1
 	yScale = 1
 	
+	--PropList
+	props = {}
+	propNames = {}
+	prop = 1
+	propToggle = false
 	
+	mood = "neutral"
 	rotation = 0
 	tick = 0
 	--0.01-0.1 are "normal" values higher = more extreme
@@ -27,6 +33,11 @@ function love.load()
 	moodDownKey = "down"
 	moodRightKey = "right"
 	moodLeftKey = "left"
+	
+	nextPropKey = "'"
+	lastPropKey = ";"
+	
+	togglePropKey = "/"
 	
 	--Setting the Background Color
 	bgRed = 0
@@ -191,6 +202,16 @@ function love.resize(w,h)
 	screenWidth = w
 end
 
+function loadProps()
+	local dir = "Root/Custom/Props"
+	--assuming that our path is full of lovely files (it should at least contain main.lua in this case)
+	local files = love.filesystem.getDirectoryItems(dir)
+	for k, file in ipairs(files) do
+		props[#props+1] = love.graphics.newImage(dir .."/" ..file)
+		propNames[#propNames+1] = file
+	end
+end
+
 
 function love.update(dt)
 	if loaded == 0 then
@@ -252,9 +273,8 @@ function love.update(dt)
 			
 			--Prop
 			if enableProp == true then
-				prop = love.graphics.newImage("Root/Custom/Prop.png")
+				loadProps()
 			end
-			
 			loaded = 1
 		else 
 			loaded = 2
@@ -264,22 +284,10 @@ function love.update(dt)
 		love.window.setMode(wid,hig,{resizable=true, vsync=false, minwidth=200, minheight=200})
 	end
 	
-	
-
-	-- dt is the time passed since update was last called
-	-- This allows us to have a "tick" every 1 second, rather than trying to do our code as fast as possible.
-	t = t + dt
-	-- When tick is over 1, you have to subtract by 1, not re-set to 0 so you can account for any dt past the 1 second mark (those miliseconds add up, and ruin FPS calculations if you forget them)
-	if t >= 1 then
-		t = t-1
-		-- Get the Mic's Sample Rate; Mainly for debugging
-		sample = Mic:getSampleRate()
-	end
-	
 	-- Set up Bobble Animation to only adjust every 40 ticks so as not to overload the cpu
 	tick = tick + 1
 	if tick > 20 then
-		tick = 1
+		tick = 0
 		if volume >= noisecap/2 and volume < noisecap then
 			rotation = rotation + (math.random(-bobbleConstant*100,bobbleConstant*100)/100)
 		end
@@ -420,13 +428,16 @@ function love.draw()
 			love.graphics.draw(moodEyes,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		
 		--Draw Prop over everything else
-		if enableProp == true then
-			love.graphics.draw(prop,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		if enableProp == true and propToggle == true then
+			love.graphics.draw(props[prop],0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		end
 	end)
 	
 	if hidden == 0 then
 		drawMicControls()
+		if enableProp == true and propToggle == true then
+			love.graphics.print(propNames[prop], 180, 13)
+		end
 	end
 end
 
@@ -490,6 +501,25 @@ function love.keypressed(key)
 			mood = "scared2"
 		else
 			mood = "scared"
+		end
+	end
+	if key == nextPropKey then
+		prop = prop + 1
+		if prop > #props then
+			prop = 1
+		end
+	end
+	if key == lastPropKey then
+		prop = prop - 1
+		if prop < 1 then
+			prop = #props
+		end
+	end
+	if key == togglePropKey then
+		if propToggle == true then
+			propToggle = false
+		else
+			propToggle = true
 		end
 	end
 	micControls(key)

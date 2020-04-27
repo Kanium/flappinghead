@@ -14,7 +14,6 @@ noisegate = 0
 noisecap = 20
 preAmp = 200
 quality = 50
-mood = "neutral"
 hidden = 0
 micControlColor = {1,1,1,1}
 
@@ -79,11 +78,7 @@ function drawMicControls()
 		if volume < noisecap*0.5 then
 			love.graphics.setColor(0.2,1,0.2,1)
 		end
-		if volume < noisecap then
-			love.graphics.rectangle("fill",40,28,rawvolume*5,10)
-		else
-			love.graphics.rectangle("fill",40,28,100,10)
-		end
+		love.graphics.rectangle("fill",40,28,rawvolume*5,10)
 		love.graphics.setColor(micControlColor)
 		love.graphics.line(40+(noisegate*5),28,40+(noisegate*5),38)
 		love.graphics.setColor(1,0.2,0.2,1)

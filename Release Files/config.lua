@@ -5,6 +5,7 @@ mouthXOff = 158
 mouthYOff = 395
 -- Set defaults for Audio Setup
 noisegate = 0
+noisecap = 20
 preAmp = 200
 quality = 100
 -- Key Bindings
@@ -16,12 +17,17 @@ moodUpKey = "up"
 moodDownKey = "down"
 moodRightKey = "right"
 moodLeftKey = "left"
+nextPropKey = "'"
+lastPropKey = ";"
+togglePropKey = "/"
 preAmpDownKey = "-"
 preAmpUpKey = "="
 qualityDownKey = "["
 qualityUpKey = "]"
 noiseGateUpKey = "kp+"
 noiseGateDownKey = "kp-"
+noiseMaxUpKey = "0"
+noiseMaxDownKey = "9"
 hideUIKey = "h"
 
 -- Background Color 0-255 RGB and Alpha

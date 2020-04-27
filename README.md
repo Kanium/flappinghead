@@ -44,7 +44,6 @@ You only need to mess with Love2D if you feel like compiling this code, or tweak
 
 "H" = Hide or Show Info-Text
 
-
 ## Facial Controls
 Arrow Keys
 
@@ -69,8 +68,12 @@ Replace the files in the "Custom" folder with your own graphics. Make sure all p
 You must maintain the original filenames exactly, capitalization matters.
 
 Do not delete any of the files. If you need a layer not to show up, simply make an empty transparent png with the same name.
+
 #### Props
 The Props folder is for any props you want to overlay on top of everything. They will still bobble with the head. Make sure to enableProps in the config.lua and don't forget to toggle the prop on as well.
+
+### Configuration
+https://github.com/Kanium/flappinghead/wiki/Configuration
 
 ### Settings Explanations
 https://github.com/Kanium/flappinghead/wiki/Audio-Settings

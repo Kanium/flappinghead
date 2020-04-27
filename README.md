@@ -30,10 +30,19 @@ You only need to mess with Love2D if you feel like compiling this code, or tweak
 
 "Num -" = Noisegate -
 
-"D" = Toggle Recording Device
+"9" = NoiseCap -
+
+"0" = NoiseCap +
+
+"'" = Next Prop
+
+";" = Last Prop
+
+"/" = Toggle Prop (if enabled in config.lua)
+
+"D" = Switch Recording Device
 
 "H" = Hide or Show Info-Text
-
 
 ## Facial Controls
 Arrow Keys
@@ -41,17 +50,17 @@ Arrow Keys
 *Faces work more like a gear shifter, see diagram below:*
 
 
-                          Happy
+                          Happier
 				|
 				|
 				|
 				|
-		Scared-------Neutral-------Angry
+		Scared-er-------Neutral-------Angrier
 				|
 				|
 				|
 				|
-			       Sad
+			       Sader
 
 ## Custom Assets
 Replace the files in the "Custom" folder with your own graphics. Make sure all parts have the same canvas size (as eachother, not necessarily the same as the originals) so that when overlayed they will be in the appropriate positions.
@@ -59,6 +68,15 @@ Replace the files in the "Custom" folder with your own graphics. Make sure all p
 You must maintain the original filenames exactly, capitalization matters.
 
 Do not delete any of the files. If you need a layer not to show up, simply make an empty transparent png with the same name.
+
+#### Props
+The Props folder is for any props you want to overlay on top of everything. They will still bobble with the head. Make sure to enableProps in the config.lua and don't forget to toggle the prop on as well.
+
+### Configuration
+https://github.com/Kanium/flappinghead/wiki/Configuration
+
+### Settings Explanations
+https://github.com/Kanium/flappinghead/wiki/Audio-Settings
 
 ### On Using the Program in the background
 This is a pastebin to the script I use for controlling the window without bringing it to the front.

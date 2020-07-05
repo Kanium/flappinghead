@@ -41,6 +41,10 @@ bgBrightness = 255
 filterMode = "nearest"
 anistropy = 0
 
+--Face Basics
+enableNose = true
+enableHair = true
+
 --Face Extras
 enableangryEyes2 = false
 enableangryMouth2 = false

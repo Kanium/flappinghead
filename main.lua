@@ -56,15 +56,8 @@ function love.load()
 	mouthYOff = 395
 
 
-	-- Only check for custom assets if release build
-	if love.filesystem.isFused( ) then
-		loaded = 0
-		--load config
-		chunk = love.filesystem.load("Root/config.lua")
-		chunk()
-	else
-		loaded = 1
-	end
+	
+	
 		
 	love.graphics.setBackgroundColor( bgRed,bgGreen,bgBlue,bgBrightness )
 	love.graphics.setDefaultFilter( filterMode, filterMode, anistropy )
@@ -181,16 +174,19 @@ function love.load()
 	effect.fog.octaves = 4
 	effect.fog.speed = {0.5,0.5}
 	
+	
+	
 	-- Only check for custom assets if release build
 	if love.filesystem.isFused( ) then
 		loaded = 0
 		--load config
+		chunk = love.filesystem.load("Root/config.lua")
+		chunk()
 		chunk = love.filesystem.load("Root/shader.lua")
 		chunk()
 	else
 		loaded = 1
 	end
-	
 end
 
 
@@ -217,8 +213,6 @@ function love.update(dt)
 	if loaded == 0 then
 		if success then
 			face = love.graphics.newImage("Root/Custom/face.png")
-			nose = love.graphics.newImage("Root/Custom/nose.png")
-			hair = love.graphics.newImage("Root/Custom/hair.png")
 			openmouth = love.graphics.newImage("Root/Custom/openmouth.png")
 			neutralMouth = love.graphics.newImage("Root/Custom/neutralMouth.png")
 			happyMouth = love.graphics.newImage("Root/Custom/happyMouth.png")
@@ -230,6 +224,14 @@ function love.update(dt)
 			sadEyes = love.graphics.newImage("Root/Custom/sadEyes.png")
 			angryEyes = love.graphics.newImage("Root/Custom/AngryEyes.png")
 			scaredEyes = love.graphics.newImage("Root/Custom/scaredEyes.png")
+			
+			--Basics
+			if enableNose == true then
+				nose = love.graphics.newImage("Root/Custom/nose.png")
+			end
+			if enableHair == true then
+				hair = love.graphics.newImage("Root/Custom/hair.png")
+			end
 			
 			--Image Extras (Enable them individually in the config file)
 			if enableangryEyes2 == true then
@@ -316,8 +318,12 @@ function love.draw()
 	effect(function()
 		-- Make sure to layer your pieces properly, Bottom layer first.
 		love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-		love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
-		love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		if enableHair == true then
+			love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		end
+		if enableNose == true then
+			love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		end
 		
 		-- Draw a mouth based on mood variable
 		if mood == "neutral" then

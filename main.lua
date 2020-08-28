@@ -320,7 +320,7 @@ function love.draw()
 	effect(function()
 		-- Make sure to layer your pieces properly, Bottom layer first.
 		--Body
-		love.graphics.draw(body, 0+mouthXOff*xScale, 0+mouthYOff*yScale,1,xScale,yScale, mouthXOff, mouthYOff)
+		love.graphics.draw(body, 0+mouthXOff*xScale, 0+mouthYOff*yScale,0,xScale,yScale, mouthXOff, mouthYOff)
 		--Face
 		love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		--Hair

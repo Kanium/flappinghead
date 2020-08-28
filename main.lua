@@ -63,6 +63,7 @@ function love.load()
 	love.graphics.setDefaultFilter( filterMode, filterMode, anistropy )
 	
 	-- loading our defult images into the code
+	body = love.graphics.newImage("body.png")
 	face = love.graphics.newImage("face.png")
 	nose = love.graphics.newImage("nose.png")
 	hair = love.graphics.newImage("hair.png")
@@ -212,6 +213,7 @@ end
 function love.update(dt)
 	if loaded == 0 then
 		if success then
+			body = love.graphics.newImage("Root/Custom/body.png")
 			face = love.graphics.newImage("Root/Custom/face.png")
 			openmouth = love.graphics.newImage("Root/Custom/openmouth.png")
 			neutralMouth = love.graphics.newImage("Root/Custom/neutralMouth.png")
@@ -317,10 +319,15 @@ function love.draw()
 	
 	effect(function()
 		-- Make sure to layer your pieces properly, Bottom layer first.
+		--Body
+		love.graphics.draw(body, 0+mouthXOff*xScale, 0+mouthYOff*yScale,1,xScale,yScale, mouthXOff, mouthYOff)
+		--Face
 		love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
+		--Hair
 		if enableHair == true then
 			love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		end
+		--Nose
 		if enableNose == true then
 			love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		end

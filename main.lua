@@ -33,6 +33,7 @@ function love.load()
 	moodDownKey = "down"
 	moodRightKey = "right"
 	moodLeftKey = "left"
+	moodResetKey = "r"
 	
 	nextPropKey = "'"
 	lastPropKey = ";"
@@ -544,7 +545,9 @@ function love.keypressed(key)
 			mood = "scared"
 		end
 	end
-
+	if key == moodResetKey then
+		mood = "neutral"
+	end
 	if key == nextPropKey then
 		prop = prop + 1
 		if prop > #props then

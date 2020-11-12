@@ -41,25 +41,16 @@ bgBrightness = 255
 filterMode = "nearest"
 anistropy = 0
 
---Face Basics
-enableNose = true
-enableHair = true
-
---Face Extras
-enableangryEyes2 = false
-enableangryMouth2 = false
-enablehappyEyes2 = false
-enablehappyMouth2 = false
-enablesadEyes2 = false
-enablesadMouth2 = false
-enablescaredEyes2 = false
-enablescaredMouth2 = false
-
---Mouth Extras
-enableopenangryMouth = false
-enableopenhappyMouth = false
-enableopenscaredMouth = false
-enableopensadMouth = false
-
---Prop Extras
-enableProp = false
+-- Default Filenames
+angryEyes2path = "angryEyes2.png"
+angryMouth2path = "angryMouth2.png"
+happyEyes2path = "happyEyes2.png"
+happyMouth2path = "happyMouth2.png"
+openangryMouthpath = "openangryMouth.png"
+opensadMouthpath = "opensadMouth.png"
+openscaredMouthpath = "openscaredMouth.png"
+openhappyMouthpath = "openhappyMouth.png"
+sadEyes2path = "sadEyes2.png"
+sadMouth2path = "sadMouth2.png"
+scaredEyes2path = "scaredEyes2.png"
+scaredMouth2path = "scaredMouth2.png"

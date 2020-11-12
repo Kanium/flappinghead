@@ -55,9 +55,6 @@ function love.load()
 	mouthXOff = 158
 	mouthYOff = 395
 
-
-	
-	
 		
 	love.graphics.setBackgroundColor( bgRed,bgGreen,bgBlue,bgBrightness )
 	love.graphics.setDefaultFilter( filterMode, filterMode, anistropy )
@@ -201,7 +198,7 @@ end
 
 function loadProps()
 	local dir = "Root/Custom/Props"
-	--assuming that our path is full of lovely files (it should at least contain main.lua in this case)
+	--assuming that our path is full of lovely files
 	local files = love.filesystem.getDirectoryItems(dir)
 	for k, file in ipairs(files) do
 		props[#props+1] = love.graphics.newImage(dir .."/" ..file)
@@ -213,7 +210,6 @@ end
 function love.update(dt)
 	if loaded == 0 then
 		if success then
-			body = love.graphics.newImage("Root/Custom/body.png")
 			face = love.graphics.newImage("Root/Custom/face.png")
 			openmouth = love.graphics.newImage("Root/Custom/openmouth.png")
 			neutralMouth = love.graphics.newImage("Root/Custom/neutralMouth.png")
@@ -228,51 +224,81 @@ function love.update(dt)
 			scaredEyes = love.graphics.newImage("Root/Custom/scaredEyes.png")
 			
 			--Basics
-			if enableNose == true then
+			info = love.filesystem.getInfo("Root/Custom/body.png")
+			if info ~= nil then
+				body = love.graphics.newImage("Root/Custom/body.png")
+			end
+			
+			info = love.filesystem.getInfo("Root/Custom/nose.png")
+			if info ~= nil then
 				nose = love.graphics.newImage("Root/Custom/nose.png")
 			end
-			if enableHair == true then
+			
+			info = love.filesystem.getInfo("Root/Custom/hair.png")
+			if info ~= nil then
 				hair = love.graphics.newImage("Root/Custom/hair.png")
 			end
 			
-			--Image Extras (Enable them individually in the config file)
-			if enableangryEyes2 == true then
-				angryEyes2 = love.graphics.newImage("Root/Custom/angryEyes2.png")
+			info = love.filesystem.getInfo("Root/Custom/" ..angryEyes2path)
+			if info ~= nil then
+				angryEyes2 = love.graphics.newImage("Root/Custom/" ..angryEyes2path)
 			end
-			if enableangryMouth2 == true then
-				angryMouth2 = love.graphics.newImage("Root/Custom/angryMouth2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..angryMouth2path)
+			if info ~= nil then
+				angryMouth2 = love.graphics.newImage("Root/Custom/" ..angryMouth2path)
 			end
-			if enablehappyEyes2 == true then
-				happyEyes2 = love.graphics.newImage("Root/Custom/happyEyes2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..happyEyes2path)
+			if info ~= nil then
+				happyEyes2 = love.graphics.newImage("Root/Custom/" ..happyEyes2path)
 			end
-			if enablehappyMouth2 == true then
-				happyMouth2 = love.graphics.newImage("Root/Custom/happyMouth2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..happyMouth2path)
+			if info ~= nil then
+				happyMouth2 = love.graphics.newImage("Root/Custom/" ..happyMouth2path)
 			end
-			if enablesadEyes2 == true then
-				sadEyes2 = love.graphics.newImage("Root/Custom/sadEyes2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..sadEyes2path)
+			if info ~= nil then
+				sadEyes2 = love.graphics.newImage("Root/Custom/" ..sadEyes2path)
 			end
-			if enablesadMouth2 == true then
-				sadMouth2 = love.graphics.newImage("Root/Custom/sadMouth2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..sadMouth2path)
+			if info ~= nil then
+				sadMouth2 = love.graphics.newImage("Root/Custom/" ..sadMouth2path)
 			end
-			if enablescaredEyes2 == true then
-				scaredEyes2 = love.graphics.newImage("Root/Custom/scaredEyes2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..scaredEyes2path)
+			if info ~= nil then
+				scaredEyes2 = love.graphics.newImage("Root/Custom/" ..scaredEyes2path)
 			end
-			if enablescaredMouth2 == true then
-				scaredMouth2 = love.graphics.newImage("Root/Custom/scaredMouth2.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..scaredMouth2path)
+			if info ~= nil then
+				scaredMouth2 = love.graphics.newImage("Root/Custom/" ..scaredMouth2path)
 			end
 
 			--Mouth Extras
-			if enableopenangryMouth == true then
-				openangryMouth = love.graphics.newImage("Root/Custom/openangryMouth.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..openangryMouthpath)
+			if info ~= nil then
+				openangryMouth = love.graphics.newImage("Root/Custom/" ..openangryMouthpath)
 			end
-			if enableopenhappyMouth == true then
-				openhappyMouth = love.graphics.newImage("Root/Custom/openhappyMouth.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..openhappyMouthpath)
+			if info ~= nil then
+				openhappyMouth = love.graphics.newImage("Root/Custom/" ..openhappyMouthpath)
 			end
-			if enableopenscaredMouth == true then
-				openscaredMouth = love.graphics.newImage("Root/Custom/openscaredMouth.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..openscaredMouthpath)
+			if info ~= nil then
+				openscaredMouth = love.graphics.newImage("Root/Custom/" ..openscaredMouthpath)
 			end
-			if enableopensadMouth == true then
-				opensadMouth = love.graphics.newImage("Root/Custom/opensadMouth.png")
+			
+			info = love.filesystem.getInfo("Root/Custom/" ..opensadMouthpath)
+			if info ~= nil then
+				opensadMouth = love.graphics.newImage("Root/Custom/" ..opensadMouthpath)
 			end
 			
 			--Prop
@@ -324,91 +350,92 @@ function love.draw()
 		--Face
 		love.graphics.draw(face, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		--Hair
-		if enableHair == true then
+		if hair ~= nil then
 			love.graphics.draw(hair, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		end
 		--Nose
-		if enableNose == true then
+		if nose ~= nil then
 			love.graphics.draw(nose, 0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
 		end
 		
-		-- Draw a mouth based on mood variable
+		 --Draw a mouth based on mood variable
 		if mood == "neutral" then
 			staticMouth = neutralMouth
 			talkMouth = openmouth
 		elseif mood == "happy" then
 			staticMouth = happyMouth
-			if enableopenhappyMouth == true then
+			if openhappyMouth ~= nil then
 				talkMouth = openhappyMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "sad" then
 			staticMouth = sadMouth
-			if enableopensadMouth == true then
+			if opensadMouth ~= nil then
 				talkMouth = opensadMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "scared" then
 			staticMouth = scaredMouth
-			if enableopenscaredMouth == true then
+			if openscaredMouth ~= nil then
 				talkMouth = openscaredMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "angry" then
 			staticMouth = angryMouth
-			if enableopenangryMouth == true then
+			if openangryMouth ~= nil then
 				talkMouth = openangryMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "happy2" then
-			if enablehappyMouth2 == true then
+			if happyMouth2 ~= nil then
 				staticMouth = happyMouth2
 			else
 				staticMouth = happyMouth
 			end
-			if enableopenhappyMouth == true then
+			if openhappyMouth ~= nil then
 				talkMouth = openhappyMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "sad2" then
-			if enablesadMouth2 == true then
+			if sadMouth2 ~= nil then
 				staticMouth = sadMouth2
 			else
 				staticMouth = sadMouth
 			end
-			if enableopensadMouth == true then
+			if opensadMouth ~= nil then
 				talkMouth = opensadMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "scared2" then
-			if enablescaredMouth2 == true then
+			if scaredMouth2 ~= nil then
 				staticMouth = scaredMouth2
 			else
 				staticMouth = scaredMouth
 			end
-			if enableopenscaredMouth == true then
+			if openscaredMouth ~= nil then
 				talkMouth = openscaredMouth
 			else
 				talkMouth = openmouth
 			end
 		elseif mood == "angry2" then
-			if enableangryMouth2 == true then
+			if angryMouth2 ~= nil then
 				staticMouth = angryMouth2
 			else
 				staticMouth = angryMouth
 			end
-			if enableopenangryMouth == true then
+			if openangryMouth ~= nil then
 				talkMouth = openangryMouth
 			else
 				talkMouth = openmouth
 			end
 		end
+		
 		
 		if volume == 0 then
 			love.graphics.draw(staticMouth,0+mouthXOff*xScale, 0+mouthYOff*yScale,rotation,xScale,yScale, mouthXOff, mouthYOff)
@@ -419,6 +446,7 @@ function love.draw()
 			love.graphics.draw(talkMouth, 0+mouthXOff*xScale, 0+mouthYOff*yScale, rotation, (xScale * 0.85), (yScale * 2), mouthXOff, mouthYOff)
 		end
 		
+
 		if mood == "neutral" then
 			moodEyes = neutralEyes
 		elseif mood == "happy" then
@@ -455,7 +483,7 @@ function love.draw()
 end
 
 function love.keypressed(key)
-	-- Mood toggling
+	 --Mood toggling
 	if key == moodUpKey then
 		if mood == "sad" then
 			mood = "neutral"
@@ -463,7 +491,7 @@ function love.keypressed(key)
 			mood = "sad"
 		elseif mood == "neutral" then
 			mood = "happy"
-		elseif mood == "happy" and enablehappyEyes2 == true then
+		elseif mood == "happy" and happyEyes2 ~= nil then
 			mood = "happy2"
 		elseif mood == "happy2" then
 			mood = "happy2"
@@ -478,7 +506,7 @@ function love.keypressed(key)
 			mood = "happy"
 		elseif mood == "neutral" then
 			mood = "sad"
-		elseif mood == "sad" and enablesadEyes2 == true then
+		elseif mood == "sad" and sadEyes2 ~= nil then
 			mood = "sad2"
 		elseif mood == "sad2" then
 			mood = "sad2"
@@ -493,7 +521,7 @@ function love.keypressed(key)
 			mood = "scared"
 		elseif mood == "neutral" then
 			mood = "angry"
-		elseif mood == "angry" and enableangryEyes2 == true then
+		elseif mood == "angry" and angryEyes2 ~= nil then
 			mood = "angry2"
 		elseif mood == "angry2" then
 			mood = "angry2"
@@ -508,7 +536,7 @@ function love.keypressed(key)
 			mood = "angry"
 		elseif mood == "neutral" then
 			mood = "scared"
-		elseif mood == "scared" and enableangryEyes2 == true then
+		elseif mood == "scared" and scaredEyes2 ~= nil then
 			mood = "scared2"
 		elseif mood == "scared2" then
 			mood = "scared2"
@@ -516,6 +544,7 @@ function love.keypressed(key)
 			mood = "scared"
 		end
 	end
+
 	if key == nextPropKey then
 		prop = prop + 1
 		if prop > #props then

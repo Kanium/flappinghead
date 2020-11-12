@@ -65,12 +65,12 @@ Arrow Keys
 ## Custom Assets
 Replace the files in the "Custom" folder with your own graphics. Make sure all parts have the same canvas size (as eachother, not necessarily the same as the originals) so that when overlayed they will be in the appropriate positions.
 
-You must maintain the original filenames exactly, capitalization matters.
+You must match the filenames of the originals or the filenames for the extra parts listed int he config.lua file exactly, capitalization matters.
 
-Do not delete any of the files. If you need a layer not to show up, simply make an empty transparent png with the same name.
+Do not delete any of the original files (excepting Nose and Hair). If you need a layer not to show up, simply make an empty transparent png with the same name.
 
 #### Props
-The Props folder is for any props you want to overlay on top of everything. They will still bobble with the head. Make sure to enableProps in the config.lua and don't forget to toggle the prop on as well.
+The Props folder is for any props you want to overlay on top of everything. They will still bobble with the head. Make sure to enableProps in the config.lua and don't forget to toggle the prop on as well with hotkeys.
 
 ### Configuration
 https://github.com/Kanium/flappinghead/wiki/Configuration

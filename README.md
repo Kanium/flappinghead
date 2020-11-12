@@ -60,7 +60,9 @@ Arrow Keys
 				|
 				|
 				|
-			       Sader
+			       Sadder
+			       
+New Mood reset Key shifts to Neutral from any position. Default binding is "R"			      
 
 ## Custom Assets
 Replace the files in the "Custom" folder with your own graphics. Make sure all parts have the same canvas size (as eachother, not necessarily the same as the originals) so that when overlayed they will be in the appropriate positions.

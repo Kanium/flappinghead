@@ -54,3 +54,7 @@ sadEyes2path = "sadEyes2.png"
 sadMouth2path = "sadMouth2.png"
 scaredEyes2path = "scaredEyes2.png"
 scaredMouth2path = "scaredMouth2.png"
+
+--Prop Extras
+--(Only set to true if you have prop images in the prop folder)
+enableProp = false

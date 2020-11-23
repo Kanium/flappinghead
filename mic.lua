@@ -15,7 +15,7 @@ noisecap = 20
 preAmp = 200
 quality = 50
 hidden = 0
-micControlColor = {1,1,1,1}
+micControlColor = {0,0,0,1}
 
 --0.01-0.1 are "normal" values higher = more extreme
 bobbleConstant = 0.02
